@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{background:#0d0d0d;color:#faf5ee;font-family:sans-serif;padding:20px}
+.btn{background:#c9836a;color:#000;border:none;padding:14px 24px;font-size:16px;border-radius:8px;margin:8px;cursor:pointer;display:block;width:100%}
+.item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin:8px 0}
+#status{color:#c9836a;font-size:14px;margin:10px 0;font-family:monospace}
+</style>
+</head>
+<body>
+<h2 style="color:#c9836a">JS Test Page</h2>
+<div id="status">Loading...</div>
+<button class="btn" onclick="runTest()">Tap to Test</button>
+<div id="output"></div>
+<script>
+document.getElementById('status').textContent = 'JS loaded OK';
+var items = ['Day 1 - Glute Intro','Day 2 - Outdoor Walk','Day 3 - Upper Body','Day 4 - Hamstrings','Day 5 - Full Body'];
+function runTest() {
+  var out = document.getElementById('output');
+  out.innerHTML = '';
+  for (var i = 0; i < items.length; i++) {
+    var d = document.createElement('div');
+    d.className = 'item';
+    d.textContent = items[i];
+    out.appendChild(d);
+  }
+  document.getElementById('status').textContent = 'Rendered ' + items.length + ' items!';
+}
+</script>
+</body>
+</html>
