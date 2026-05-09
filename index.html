@@ -6,1034 +6,933 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Shape90">
+<meta name="apple-mobile-web-app-title" content="FitLyss">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="color-scheme" content="dark">
-<title>Shape90</title>
+<title>FitLyss</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{background:#0d0d0d;color-scheme:dark}
-body{background:#0d0d0d!important;color:#faf5ee;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;min-height:100vh;overscroll-behavior:none;-webkit-text-size-adjust:100%}
+html,body{background:#0d0d0d!important;color:#faf5ee;font-family:-apple-system,BlinkMacSystemFont,sans-serif;overscroll-behavior:none;-webkit-text-size-adjust:100%;color-scheme:dark}
 .screen{display:none;flex-direction:column;min-height:100vh}
 .screen.active{display:flex}
 #home{background:#0d0d0d;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
-.home-hero{padding:calc(env(safe-area-inset-top,0px)+52px) 24px 28px;border-bottom:1px solid #2a2a2a;position:relative;overflow:hidden;background:linear-gradient(160deg,#0d0d0d 60%,#1a0d0a)}
-.home-hero::after{content:'90';position:absolute;right:-8px;top:-8px;font-weight:900;font-size:190px;color:rgba(201,131,106,0.05);line-height:1;pointer-events:none;user-select:none}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;border:1px solid rgba(201,131,106,0.4);padding:4px 12px;margin-bottom:18px;font-family:'Courier New',monospace}
-.hero-title{font-weight:900;font-size:72px;line-height:0.88;letter-spacing:-1px;margin-bottom:6px;color:#faf5ee}
-.hero-title span{color:#c9836a}
-.hero-sub{font-size:10px;color:#555;letter-spacing:3px;text-transform:uppercase;font-family:'Courier New',monospace;margin-bottom:24px}
-.progress-row{display:flex;align-items:center;gap:20px}
-.ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
-.ring-wrap svg{transform:rotate(-90deg)}
-.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring-pct{font-weight:900;font-size:20px;color:#c9836a;line-height:1}
-.ring-lbl{font-size:9px;color:#555;letter-spacing:1px;text-transform:uppercase;font-family:'Courier New',monospace}
-.progress-meta{flex:1}
-.prog-line{display:flex;justify-content:space-between;margin-bottom:8px;align-items:baseline}
-.prog-key{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555}
-.prog-val{font-weight:900;font-size:22px;color:#c9836a}
-.phase-tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:16px 16px 0;gap:6px;background:#0d0d0d}
-.phase-tabs::-webkit-scrollbar{display:none}
-.ptab{flex-shrink:0;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border:1px solid #2a2a2a;border-bottom:none;background:transparent;color:#555;cursor:pointer;border-radius:4px 4px 0 0;transition:all 0.15s}
+.hero{padding:calc(env(safe-area-inset-top,0px) + 48px) 22px 24px;border-bottom:1px solid #2a2a2a;background:#0d0d0d}
+.badge{display:inline-block;font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;border:1px solid #c9836a;padding:4px 12px;margin-bottom:16px}
+.htitle{font-weight:900;font-size:70px;line-height:0.88;letter-spacing:-1px;margin-bottom:6px;color:#faf5ee}
+.htitle span{color:#c9836a}
+.hsub{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:22px}
+.prow{display:flex;align-items:center;gap:18px}
+.rwrap{position:relative;width:78px;height:78px;flex-shrink:0}
+.rwrap svg{transform:rotate(-90deg)}
+.rcenter{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rpct{font-weight:900;font-size:19px;color:#c9836a;line-height:1}
+.rlbl{font-size:9px;color:#555;letter-spacing:1px;font-family:'Courier New',monospace;text-transform:uppercase}
+.pmeta{flex:1}
+.pline{display:flex;justify-content:space-between;margin-bottom:7px;align-items:baseline}
+.pkey{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555}
+.pval{font-weight:900;font-size:21px;color:#c9836a}
+.ptabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:14px 14px 0;gap:6px;background:#0d0d0d}
+.ptabs::-webkit-scrollbar{display:none}
+.ptab{flex-shrink:0;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 13px;border:1px solid #2a2a2a;border-bottom:none;background:transparent;color:#555;cursor:pointer;border-radius:4px 4px 0 0}
 .ptab.active{background:#1a1a1a;border-color:#c9836a;color:#c9836a}
-.phase-content{padding:0 16px 16px;background:#1a1a1a;min-height:200px}
-.week-header{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;padding:16px 0 10px;border-bottom:1px solid #2a2a2a;margin-bottom:10px}
-.day-row{display:flex;align-items:center;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:8px;margin-bottom:8px;overflow:hidden;cursor:pointer;transition:border-color 0.15s;user-select:none}
-.day-row:active{opacity:0.75}
-.day-row.done{border-color:#7dba84}
-.check-col{width:44px;display:flex;align-items:center;justify-content:center;padding:14px 0;flex-shrink:0}
-.check-circle{width:22px;height:22px;border-radius:50%;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all 0.2s}
-.day-row.done .check-circle{background:#7dba84;border-color:#7dba84;color:#fff}
-.day-info{flex:1;padding:12px 8px 12px 0;min-width:0}
-.day-num{font-family:'Courier New',monospace;font-size:10px;color:#c9836a;letter-spacing:2px;line-height:1;margin-bottom:3px;text-transform:uppercase}
-.day-row.done .day-num{color:#7dba84}
-.day-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#faf5ee}
-.day-sub{font-size:11px;color:#555;margin-top:2px;font-family:'Courier New',monospace}
-.arrow-col{padding:0 12px;color:#333;font-size:18px;flex-shrink:0}
+.pcontent{padding:0 14px 16px;background:#1a1a1a;min-height:300px}
+.wkhdr{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;padding:14px 0 8px;border-bottom:1px solid #2a2a2a;margin-bottom:8px}
+.drow{display:flex;align-items:center;background:#0d0d0d;border:1px solid #2a2a2a;border-radius:8px;margin-bottom:8px;cursor:pointer;user-select:none}
+.drow.done{border-color:#7dba84}
+.drow:active{opacity:0.7}
+.dchk{width:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dcirc{width:22px;height:22px;border-radius:50%;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent}
+.drow.done .dcirc{background:#7dba84;border-color:#7dba84;color:#fff}
+.drow.done .dnum{color:#7dba84}
+.dinf{flex:1;padding:11px 8px 11px 0;min-width:0}
+.dnum{font-family:'Courier New',monospace;font-size:10px;color:#c9836a;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
+.dtit{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#faf5ee}
+.dsub{font-size:11px;color:#555;margin-top:2px;font-family:'Courier New',monospace}
+.darr{padding:0 12px;color:#333;font-size:18px;flex-shrink:0}
 /* DETAIL */
 #detail{background:#0d0d0d;display:none;flex-direction:column;min-height:100vh}
 #detail.active{display:flex}
-.detail-header{padding:calc(env(safe-area-inset-top,0px)+12px) 16px 12px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;gap:12px;flex-shrink:0;background:#0d0d0d;position:sticky;top:0;z-index:10}
-.back-btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:1px;color:#c9836a;background:none;border:none;cursor:pointer;padding:8px 0;text-transform:uppercase}
-.detail-day-num{font-weight:900;font-size:32px;color:#c9836a;line-height:1}
-.detail-title-col{flex:1;min-width:0}
-.detail-title{font-weight:700;font-size:15px;color:#faf5ee}
-.detail-phase-lbl{font-family:'Courier New',monospace;font-size:10px;color:#555;letter-spacing:1px;margin-top:2px;text-transform:uppercase}
-/* Section tabs */
-.sec-tabs{display:flex;background:#0d0d0d;border-bottom:1px solid #2a2a2a;flex-shrink:0}
-.stab{flex:1;font-family:'Courier New',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:11px 4px;background:transparent;border:none;color:#555;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s}
+.dhdr{padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 10px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;gap:10px;background:#0d0d0d;flex-shrink:0;position:sticky;top:0;z-index:10}
+.bbtn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:1px;color:#c9836a;background:none;border:none;cursor:pointer;padding:8px 0;text-transform:uppercase;white-space:nowrap}
+.ddnum{font-weight:900;font-size:30px;color:#c9836a;line-height:1;flex-shrink:0}
+.ddcol{flex:1;min-width:0}
+.ddtit{font-weight:700;font-size:14px;color:#faf5ee}
+.ddph{font-family:'Courier New',monospace;font-size:10px;color:#555;letter-spacing:1px;margin-top:2px;text-transform:uppercase}
+.stabs{display:flex;background:#0d0d0d;border-bottom:1px solid #2a2a2a;flex-shrink:0;overflow-x:auto;scrollbar-width:none}
+.stabs::-webkit-scrollbar{display:none}
+.stab{flex:1;min-width:60px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:11px 4px;background:transparent;border:none;color:#555;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
 .stab.active{color:#c9836a;border-bottom-color:#c9836a}
-.tab-panel{display:none;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
-.tab-panel.active{display:block}
-/* Cards inside detail */
-.done-banner{background:rgba(125,186,132,0.1);border:1px solid #7dba84;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:13px;color:#7dba84;font-weight:600}
-.section-block{margin-bottom:20px}
-.section-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #1e1e1e}
-.exercise-item{background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:11px 13px;margin-bottom:6px}
-.ex-row{display:flex;justify-content:space-between;align-items:center}
-.ex-name{font-size:13px;color:#faf5ee;font-weight:500}
-.ex-detail{font-family:'Courier New',monospace;font-size:11px;color:#c9836a;flex-shrink:0;margin-left:8px}
-.ex-video{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-family:'Courier New',monospace;font-size:10px;color:#c9836a;text-decoration:none;letter-spacing:1px;padding:4px 10px;border:1px solid rgba(201,131,106,0.3);border-radius:3px}
-.ex-video:hover{background:rgba(201,131,106,0.1)}
-/* Hard checklist */
-.hard-checklist{margin-bottom:20px}
-.hcl-title{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:10px}
-.hcl-item{display:flex;align-items:center;gap:12px;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:12px 14px;margin-bottom:6px;cursor:pointer;user-select:none;transition:border-color 0.15s}
-.hcl-item:active{opacity:0.75}
-.hcl-item.checked{border-color:#7dba84}
-.hcl-item.checked .hcl-box{background:#7dba84;border-color:#7dba84;color:#fff}
-.hcl-box{width:20px;height:20px;border-radius:4px;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:transparent;transition:all 0.2s}
-.hcl-text{font-size:13px;color:#faf5ee;line-height:1.3}
-/* Meal plan */
-.meal-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:14px;margin-bottom:10px}
-.meal-time{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:6px}
-.meal-name{font-size:14px;font-weight:600;color:#faf5ee;margin-bottom:4px}
-.meal-desc{font-size:12px;color:#777;line-height:1.5}
-.meal-macros{display:flex;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid #2a2a2a}
-.macro{text-align:center}
-.macro-val{font-weight:700;font-size:14px;color:#faf5ee}
-.macro-lbl{font-family:'Courier New',monospace;font-size:9px;color:#555;letter-spacing:1px;text-transform:uppercase}
-.macro-total{background:rgba(201,131,106,0.08);border:1px solid rgba(201,131,106,0.2);border-radius:6px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.macro-total-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a}
-.macro-total-vals{display:flex;gap:16px}
-/* Notes / tips */
-.tip-box{background:#141414;border-left:3px solid #c9836a;border-radius:0 6px 6px 0;padding:12px 16px;margin-bottom:16px}
-.tip-title{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:8px}
-.tip-item{font-size:12px;color:#aaa;padding:3px 0 3px 14px;position:relative;line-height:1.4}
-.tip-item::before{content:'→';position:absolute;left:0;color:#c9836a;font-family:'Courier New',monospace}
-/* Complete btn */
-.complete-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:#c9836a;color:#0d0d0d;border:none;border-radius:8px;font-weight:900;font-size:18px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all 0.2s}
-.complete-btn:active{transform:scale(0.98);opacity:0.9}
-.complete-btn.done-state{background:#1a2e1c;color:#7dba84}
-/* STATS */
-#stats{background:#0d0d0d;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
-.stats-pad{padding:calc(env(safe-area-inset-top,0px)+48px) 20px 100px}
-.stats-title{font-weight:900;font-size:48px;letter-spacing:-1px;margin-bottom:24px;border-bottom:1px solid #2a2a2a;padding-bottom:16px;color:#faf5ee}
-.stat-card{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:20px;margin-bottom:12px}
-.stat-card-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px}
-.stat-card-val{font-weight:900;font-size:44px;color:#c9836a;line-height:1}
-.stat-card-sub{font-size:12px;color:#555;margin-top:4px}
-.cal-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-top:12px}
-.cal-cell{aspect-ratio:1;border-radius:2px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:7px;color:#444}
-.cal-cell.done{background:#7dba84;color:#fff}
-/* BOTTOM NAV */
-.bottom-nav{display:flex;background:#141414;border-top:1px solid #2a2a2a;padding:8px 0 calc(env(safe-area-inset-bottom,0px)+8px);flex-shrink:0;position:sticky;bottom:0;z-index:10}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#444;cursor:pointer;padding:6px 0;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;transition:color 0.15s}
-.nav-btn.active{color:#c9836a}
-.nav-icon{font-size:20px}
-/* TOAST */
-.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px)+80px);left:50%;transform:translateX(-50%) translateY(20px);background:#7dba84;color:#fff;padding:10px 20px;border-radius:20px;font-family:'Courier New',monospace;font-size:12px;letter-spacing:1px;opacity:0;pointer-events:none;z-index:999;white-space:nowrap;transition:all 0.3s;font-weight:600}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* PHOTO TAB */
-.photo-upload-area{background:#141414;border:2px dashed #2a2a2a;border-radius:12px;padding:32px 20px;text-align:center;margin-bottom:16px;cursor:pointer;transition:border-color 0.2s}
-.photo-upload-area:active{border-color:#c9836a}
-.photo-upload-icon{font-size:40px;margin-bottom:10px}
-.photo-upload-label{font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
-.photo-upload-sub{font-size:12px;color:#333}
-.photo-preview{width:100%;border-radius:10px;margin-bottom:12px;display:block;object-fit:cover;max-height:340px}
-.photo-date-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:8px}
-.photo-note-input{width:100%;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:10px 12px;color:#faf5ee;font-size:13px;font-family:-apple-system,sans-serif;resize:none;margin-bottom:12px;outline:none}
-.photo-note-input:focus{border-color:#c9836a}
-.photo-save-btn{width:100%;padding:13px;background:transparent;color:#c9836a;border:1px solid #c9836a;border-radius:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-bottom:8px}
-.photo-save-btn:active{background:rgba(201,131,106,0.1)}
-.photo-gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
-.gallery-item{position:relative;border-radius:8px;overflow:hidden;background:#141414;border:1px solid #2a2a2a;cursor:pointer}
-.gallery-item img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-.gallery-item-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:6px 8px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#c9836a;text-transform:uppercase}
-.gallery-empty{text-align:center;padding:32px 20px;color:#333;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase}
-.progress-compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
-.compare-slot{background:#141414;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;aspect-ratio:0.75}
-.compare-slot img{width:100%;height:100%;object-fit:cover}
-.compare-slot-label{padding:8px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#555;text-transform:uppercase;text-align:center}
-/* SHOPPING */
+.tpanel{display:none;padding:14px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
+.tpanel.active{display:block}
+/* shared detail components */
+.donebanner{background:rgba(125,186,132,0.1);border:1px solid #7dba84;border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#7dba84;font-weight:600}
+.seclbl{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #1e1e1e}
+.secblk{margin-bottom:18px}
+.exitem{background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:10px 12px;margin-bottom:6px}
+.exrow{display:flex;justify-content:space-between;align-items:center}
+.exn{font-size:13px;color:#faf5ee;font-weight:500}
+.exd{font-family:'Courier New',monospace;font-size:11px;color:#c9836a;flex-shrink:0;margin-left:6px;text-align:right}
+.vidlink{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-family:'Courier New',monospace;font-size:10px;color:#c9836a;text-decoration:none;letter-spacing:1px;padding:3px 8px;border:1px solid rgba(201,131,106,0.3);border-radius:3px}
+.tipbox{background:#141414;border-left:3px solid #c9836a;border-radius:0 6px 6px 0;padding:11px 14px;margin-bottom:14px}
+.tiptit{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:8px}
+.tipitem{font-size:12px;color:#aaa;padding:3px 0 3px 14px;position:relative;line-height:1.4}
+.tipitem::before{content:'->'; position:absolute;left:0;color:#c9836a;font-family:'Courier New',monospace}
+/* checklist */
+.hcl{margin-bottom:18px}
+.hcltit{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:8px}
+.hclitem{display:flex;align-items:center;gap:10px;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:11px 13px;margin-bottom:6px;cursor:pointer;user-select:none}
+.hclitem:active{opacity:0.7}
+.hclitem.chk{border-color:#7dba84}
+.hclitem.chk .hclbox{background:#7dba84;border-color:#7dba84;color:#fff}
+.hclbox{width:20px;height:20px;border-radius:4px;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;color:transparent}
+.hcltxt{font-size:13px;color:#faf5ee;line-height:1.3}
+/* meals */
+.mcard{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:13px;margin-bottom:10px}
+.mtime{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:5px}
+.mname{font-size:14px;font-weight:600;color:#faf5ee;margin-bottom:4px}
+.mdesc{font-size:12px;color:#777;line-height:1.5}
+.mmacs{display:flex;gap:12px;margin-top:8px;padding-top:8px;border-top:1px solid #2a2a2a}
+.mac{text-align:center}
+.macv{font-weight:700;font-size:14px;color:#faf5ee}
+.macl{font-family:'Courier New',monospace;font-size:9px;color:#555;letter-spacing:1px;text-transform:uppercase}
+.mtotal{background:rgba(201,131,106,0.08);border:1px solid rgba(201,131,106,0.2);border-radius:6px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mtotlbl{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a}
+.mtotvals{display:flex;gap:14px}
+/* photo */
+.photoarea{background:#141414;border:2px dashed #2a2a2a;border-radius:12px;padding:30px 18px;text-align:center;margin-bottom:14px;cursor:pointer}
+.photoicon{font-size:38px;margin-bottom:8px}
+.photolbl{font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:4px}
+.photosub{font-size:12px;color:#333}
+.photoprev{width:100%;border-radius:10px;margin-bottom:12px;display:block;object-fit:cover;max-height:320px}
+.noteinput{width:100%;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:10px 12px;color:#faf5ee;font-size:13px;font-family:-apple-system,sans-serif;resize:none;margin-bottom:10px;outline:none}
+.noteinput:focus{border-color:#c9836a}
+.photobtn{width:100%;padding:12px;background:transparent;color:#c9836a;border:1px solid #c9836a;border-radius:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-bottom:8px}
+.photodlbl{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9836a;margin-bottom:8px;margin-top:14px}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.gallitem{position:relative;border-radius:8px;overflow:hidden;background:#141414;border:1px solid #2a2a2a}
+.gallitem img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.galllbl{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:5px 7px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#c9836a;text-transform:uppercase}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.cslot{background:#141414;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden}
+.cslot img{width:100%;aspect-ratio:0.75;object-fit:cover;display:block}
+.cslotlbl{padding:6px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;color:#555;text-transform:uppercase;text-align:center}
+.gallempty{text-align:center;padding:30px;color:#333;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase}
+/* complete btn */
+.cbtn{display:flex;align-items:center;justify-content:center;width:100%;padding:15px;background:#c9836a;color:#0d0d0d;border:none;border-radius:8px;font-weight:900;font-size:18px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:8px}
+.cbtn:active{opacity:0.8}
+.cbtn.done{background:#1a2e1c;color:#7dba84}
+/* shopping */
 #shopping{background:#0d0d0d;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
-.shop-pad{padding:calc(env(safe-area-inset-top,0px)+48px) 20px 100px}
-.shop-title{font-weight:900;font-size:40px;letter-spacing:-1px;margin-bottom:6px;color:#faf5ee}
-.shop-sub{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:24px}
-.week-selector{display:flex;overflow-x:auto;scrollbar-width:none;gap:8px;margin-bottom:20px;padding-bottom:4px}
-.week-selector::-webkit-scrollbar{display:none}
-.week-pill{flex-shrink:0;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border:1px solid #2a2a2a;border-radius:20px;background:transparent;color:#555;cursor:pointer;transition:all 0.15s}
-.week-pill.active{background:rgba(201,131,106,0.1);border-color:#c9836a;color:#c9836a}
-.shop-category{margin-bottom:20px}
-.shop-cat-title{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #2a2a2a}
-.shop-item{display:flex;align-items:center;gap:12px;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:11px 14px;margin-bottom:6px;cursor:pointer;user-select:none;transition:all 0.15s}
-.shop-item:active{opacity:0.75}
-.shop-item.got{opacity:0.45}
-.shop-item.got .shop-check{background:#7dba84;border-color:#7dba84;color:#fff}
-.shop-check{width:20px;height:20px;border-radius:4px;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:transparent;transition:all 0.2s}
-.shop-name{font-size:13px;color:#faf5ee;flex:1}
-.shop-qty{font-family:'Courier New',monospace;font-size:11px;color:#555;flex-shrink:0}
-.shop-reset-btn{width:100%;padding:12px;background:transparent;color:#444;border:1px solid #2a2a2a;border-radius:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:8px}
-::-webkit-scrollbar{width:0}
+.shpad{padding:calc(env(safe-area-inset-top,0px) + 48px) 18px 100px}
+.shtit{font-weight:900;font-size:38px;letter-spacing:-1px;margin-bottom:4px;color:#faf5ee}
+.shsub{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:20px}
+.wksel{display:flex;overflow-x:auto;scrollbar-width:none;gap:7px;margin-bottom:18px}
+.wksel::-webkit-scrollbar{display:none}
+.wkpill{flex-shrink:0;font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border:1px solid #2a2a2a;border-radius:20px;background:transparent;color:#555;cursor:pointer}
+.wkpill.active{background:rgba(201,131,106,0.1);border-color:#c9836a;color:#c9836a}
+.shcat{margin-bottom:18px}
+.shcattit{font-family:'Courier New',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9836a;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #2a2a2a}
+.shitem{display:flex;align-items:center;gap:10px;background:#141414;border:1px solid #2a2a2a;border-radius:6px;padding:10px 13px;margin-bottom:6px;cursor:pointer;user-select:none}
+.shitem:active{opacity:0.7}
+.shitem.got{opacity:0.4}
+.shitem.got .shchk{background:#7dba84;border-color:#7dba84;color:#fff}
+.shchk{width:20px;height:20px;border-radius:4px;border:2px solid #2a2a2a;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:transparent}
+.shname{font-size:13px;color:#faf5ee;flex:1}
+.shqty{font-family:'Courier New',monospace;font-size:11px;color:#555;flex-shrink:0}
+.shreset{width:100%;padding:11px;background:transparent;color:#444;border:1px solid #2a2a2a;border-radius:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:6px}
+/* stats */
+#stats{background:#0d0d0d;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
+.stpad{padding:calc(env(safe-area-inset-top,0px) + 48px) 18px 100px}
+.sttit{font-weight:900;font-size:38px;letter-spacing:-1px;margin-bottom:20px;border-bottom:1px solid #2a2a2a;padding-bottom:14px;color:#faf5ee}
+.stcard{background:#141414;border:1px solid #2a2a2a;border-radius:8px;padding:18px;margin-bottom:12px}
+.stclbl{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:7px}
+.stcval{font-weight:900;font-size:42px;color:#c9836a;line-height:1}
+.stcsub{font-size:12px;color:#555;margin-top:4px}
+.calgrid{display:grid;grid-template-columns:repeat(9,1fr);gap:3px;margin-top:10px}
+.calcell{aspect-ratio:1;border-radius:2px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:7px;color:#444}
+.calcell.done{background:#7dba84;color:#fff}
+/* bottom nav */
+.bnav{display:flex;background:#141414;border-top:1px solid #2a2a2a;padding:7px 0 calc(env(safe-area-inset-bottom,0px) + 7px);flex-shrink:0;position:sticky;bottom:0;z-index:10}
+.nbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#444;cursor:pointer;padding:5px 0;font-family:'Courier New',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.nbtn.active{color:#c9836a}
+.nicon{font-size:19px}
+/* toast */
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 75px);left:50%;transform:translateX(-50%) translateY(20px);background:#7dba84;color:#fff;padding:9px 18px;border-radius:18px;font-family:'Courier New',monospace;font-size:12px;letter-spacing:1px;opacity:0;pointer-events:none;z-index:999;white-space:nowrap;transition:all 0.25s;font-weight:600}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
-
 <div class="screen active" id="home">
   <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#0d0d0d">
-    <div class="home-hero">
-      <div class="hero-badge">✦ 90-Day Sculpt Protocol</div>
-      <div class="hero-title">SCULPT<br><span>&amp;</span><br>DEFINE</div>
-      <div class="hero-sub">Glutes · Abs · Total Body Definition</div>
-      <div class="progress-row">
-        <div class="ring-wrap">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="#2a2a2a" stroke-width="7"/>
-            <circle id="ringCircle" cx="40" cy="40" r="34" fill="none" stroke="#c9836a" stroke-width="7"
-              stroke-dasharray="213.6" stroke-dashoffset="213.6" stroke-linecap="round"/>
+    <div class="hero">
+      <div class="badge">90-Day Sculpt Protocol</div>
+      <div class="htitle">SCULPT<br><span>&amp;</span><br>DEFINE</div>
+      <div class="hsub">Glutes - Abs - Total Body Definition</div>
+      <div class="prow">
+        <div class="rwrap">
+          <svg width="78" height="78" viewBox="0 0 78 78">
+            <circle cx="39" cy="39" r="33" fill="none" stroke="#2a2a2a" stroke-width="7"/>
+            <circle id="ringCircle" cx="39" cy="39" r="33" fill="none" stroke="#c9836a" stroke-width="7" stroke-dasharray="207.3" stroke-dashoffset="207.3" stroke-linecap="round"/>
           </svg>
-          <div class="ring-center">
-            <div class="ring-pct" id="ringPct">0%</div>
-            <div class="ring-lbl">done</div>
-          </div>
+          <div class="rcenter"><div class="rpct" id="ringPct">0%</div><div class="rlbl">done</div></div>
         </div>
-        <div class="progress-meta">
-          <div class="prog-line"><span class="prog-key">Completed</span><span class="prog-val" id="doneCount">0/90</span></div>
-          <div class="prog-line"><span class="prog-key">Streak</span><span class="prog-val" id="streakCount">0🔥</span></div>
-          <div class="prog-line"><span class="prog-key">Phase</span><span class="prog-val" id="currentPhase">RAMP</span></div>
+        <div class="pmeta">
+          <div class="pline"><span class="pkey">Completed</span><span class="pval" id="doneCount">0/90</span></div>
+          <div class="pline"><span class="pkey">Streak</span><span class="pval" id="streakCount">0</span></div>
+          <div class="pline"><span class="pkey">Phase</span><span class="pval" id="curPhase">RAMP</span></div>
         </div>
       </div>
     </div>
-    <div class="phase-tabs" id="phaseTabs">
-      <button class="ptab active" data-phase="0" onclick="switchPhase(0)">Phase 1 — Ramp</button>
-      <button class="ptab" data-phase="1" onclick="switchPhase(1)">Phase 2A — 75 Hard</button>
-      <button class="ptab" data-phase="2" onclick="switchPhase(2)">Phase 2B — 75 Hard</button>
+    <div class="ptabs" id="phaseTabs">
+      <button class="ptab active" onclick="switchPhase(0)">Phase 1 Ramp</button>
+      <button class="ptab" onclick="switchPhase(1)">Phase 2A Hard</button>
+      <button class="ptab" onclick="switchPhase(2)">Phase 2B Hard</button>
     </div>
-    <div class="phase-content" id="phaseContent"></div>
+    <div class="pcontent" id="phaseContent"></div>
   </div>
-  <div class="bottom-nav">
-    <button class="nav-btn active" onclick="showScreen('home',this)"><span class="nav-icon">🌸</span>Plan</button>
-    <button class="nav-btn" onclick="showScreen('shopping',this)"><span class="nav-icon">🛒</span>Shop</button>
-    <button class="nav-btn" onclick="showScreen('stats',this)"><span class="nav-icon">📊</span>Stats</button>
+  <div class="bnav">
+    <button class="nbtn active" onclick="showScreen('home',this)"><span class="nicon">&#127800;</span>Plan</button>
+    <button class="nbtn" onclick="showScreen('shopping',this)"><span class="nicon">&#128722;</span>Shop</button>
+    <button class="nbtn" onclick="showScreen('stats',this)"><span class="nicon">&#128202;</span>Stats</button>
   </div>
 </div>
-
-<!-- DETAIL -->
 
 <div class="screen" id="detail">
-  <div class="detail-header">
-    <button class="back-btn" onclick="goBack()">‹ Back</button>
-    <div class="detail-day-num" id="detailDayNum">D1</div>
-    <div class="detail-title-col">
-      <div class="detail-title" id="detailTitle"></div>
-      <div class="detail-phase-lbl" id="detailPhase"></div>
-    </div>
+  <div class="dhdr">
+    <button class="bbtn" onclick="goBack()">Back</button>
+    <div class="ddnum" id="ddnum">D1</div>
+    <div class="ddcol"><div class="ddtit" id="ddtit"></div><div class="ddph" id="ddph"></div></div>
   </div>
-  <div class="sec-tabs">
-    <button class="stab active" onclick="switchTab('workout',this)">💪 Workout</button>
-    <button class="stab" onclick="switchTab('meal',this)">🥗 Meals</button>
-    <button class="stab" onclick="switchTab('checklist',this)">✅ Check-In</button>
-    <button class="stab" onclick="switchTab('photo',this)">📸 Photo</button>
+  <div class="stabs">
+    <button class="stab active" onclick="openTab('workout',this)">Workout</button>
+    <button class="stab" onclick="openTab('meal',this)">Meals</button>
+    <button class="stab" onclick="openTab('checkin',this)">Check-In</button>
+    <button class="stab" onclick="openTab('photo',this)">Photo</button>
   </div>
-  <div id="panel-workout" class="tab-panel active"></div>
-  <div id="panel-meal" class="tab-panel"></div>
-  <div id="panel-checklist" class="tab-panel"></div>
-  <div id="panel-photo" class="tab-panel"></div>
+  <div id="tp-workout" class="tpanel active"></div>
+  <div id="tp-meal" class="tpanel"></div>
+  <div id="tp-checkin" class="tpanel"></div>
+  <div id="tp-photo" class="tpanel"></div>
 </div>
-
-<!-- SHOPPING -->
 
 <div class="screen" id="shopping">
-  <div class="shop-pad" style="flex:1">
-    <div class="shop-title">Shopping List</div>
-    <div class="shop-sub">Weekly grocery guide</div>
-    <div class="week-selector" id="weekSelector"></div>
-    <div id="shopContent"></div>
+  <div class="shpad">
+    <div class="shtit">Shopping</div>
+    <div class="shsub">Weekly grocery list</div>
+    <div class="wksel" id="wksel"></div>
+    <div id="shcontent"></div>
   </div>
-  <div class="bottom-nav">
-    <button class="nav-btn" onclick="showScreen('home',this)"><span class="nav-icon">🌸</span>Plan</button>
-    <button class="nav-btn active" onclick="showScreen('shopping',this)"><span class="nav-icon">🛒</span>Shop</button>
-    <button class="nav-btn" onclick="showScreen('stats',this)"><span class="nav-icon">📊</span>Stats</button>
+  <div class="bnav">
+    <button class="nbtn" onclick="showScreen('home',this)"><span class="nicon">&#127800;</span>Plan</button>
+    <button class="nbtn active" onclick="showScreen('shopping',this)"><span class="nicon">&#128722;</span>Shop</button>
+    <button class="nbtn" onclick="showScreen('stats',this)"><span class="nicon">&#128202;</span>Stats</button>
   </div>
 </div>
 
-<!-- STATS -->
-
 <div class="screen" id="stats">
-  <div class="stats-pad" style="flex:1">
-    <div class="stats-title">Progress</div>
-    <div id="statsContent"></div>
+  <div class="stpad">
+    <div class="sttit">Progress</div>
+    <div id="stcontent"></div>
   </div>
-  <div class="bottom-nav">
-    <button class="nav-btn" onclick="showScreen('home',this)"><span class="nav-icon">🌸</span>Plan</button>
-    <button class="nav-btn" onclick="showScreen('shopping',this)"><span class="nav-icon">🛒</span>Shop</button>
-    <button class="nav-btn active" onclick="showScreen('stats',this)"><span class="nav-icon">📊</span>Stats</button>
+  <div class="bnav">
+    <button class="nbtn" onclick="showScreen('home',this)"><span class="nicon">&#127800;</span>Plan</button>
+    <button class="nbtn" onclick="showScreen('shopping',this)"><span class="nicon">&#128722;</span>Shop</button>
+    <button class="nbtn active" onclick="showScreen('stats',this)"><span class="nicon">&#128202;</span>Stats</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── STATE ──────────────────────────────────────────────────────
-let completedDays={},hardChecks={},currentPhaseTab=0,currentDayIndex=null,prevScreen='home';
-try{completedDays=JSON.parse(localStorage.getItem('s90_done')||'{}');hardChecks=JSON.parse(localStorage.getItem('s90_chk')||'{}');}catch(e){}
-function save(){try{localStorage.setItem('s90_done',JSON.stringify(completedDays));localStorage.setItem('s90_chk',JSON.stringify(hardChecks));}catch(e){}}
+var done = {}, checks = {}, photos = {}, shopChk = {};
+var curPhaseIdx = 0, curDayIdx = 0, prevScr = 'home', curShopWk = 0;
 
-// ── VIDEO LINKS (YouTube tutorials for complex lifts) ──────────
-const VIDEOS={
-  'Hip Thrust':'https://www.youtube.com/watch?v=xDmFkJxPzeM',
-  'Romanian Deadlift':'https://www.youtube.com/watch?v=hCDzSR6bW10',
-  'Bulgarian Split Squat':'https://www.youtube.com/watch?v=2C-uNgKwPLE',
-  'Barbell Back Squat':'https://www.youtube.com/watch?v=bEv6CCg2BC8',
-  'Cable Kickback':'https://www.youtube.com/watch?v=xdCyGalAcQQ',
-  'Sumo Deadlift':'https://www.youtube.com/watch?v=XB_CFxoXZIE',
-  'Good Morning':'https://www.youtube.com/watch?v=YA-h3n9L4YU',
-  'Nordic Curl':'https://www.youtube.com/watch?v=d8PSNADaqWQ',
-  'Bench Press':'https://www.youtube.com/watch?v=rT7DgCr-3pg',
-  'Overhead Press':'https://www.youtube.com/watch?v=qEwKCR5JCog',
-  'Barbell Row':'https://www.youtube.com/watch?v=FWJR5Ve8bnQ',
-  'Deadlift':'https://www.youtube.com/watch?v=op9kVnSso6Q',
-  'Pull-up':'https://www.youtube.com/watch?v=eGo4IYlbE5g',
-  'Lat Pulldown':'https://www.youtube.com/watch?v=CAwf7n6Luuc',
-  'Ab Wheel Rollout':'https://www.youtube.com/watch?v=7B8pWMrSS_U',
-  'Dragon Flag':'https://www.youtube.com/watch?v=MuzIMFt3NUo',
-  'Hanging Leg Raise':'https://www.youtube.com/watch?v=hdng3Nm1x_E',
+function loadData() {
+  try { done = JSON.parse(localStorage.getItem('fl_done') || '{}'); } catch(e) { done = {}; }
+  try { checks = JSON.parse(localStorage.getItem('fl_chk') || '{}'); } catch(e) { checks = {}; }
+  try { photos = JSON.parse(localStorage.getItem('fl_photos') || '{}'); } catch(e) { photos = {}; }
+  try { shopChk = JSON.parse(localStorage.getItem('fl_shop') || '{}'); } catch(e) { shopChk = {}; }
+}
+function saveData() {
+  try { localStorage.setItem('fl_done', JSON.stringify(done)); } catch(e) {}
+  try { localStorage.setItem('fl_chk', JSON.stringify(checks)); } catch(e) {}
+  try { localStorage.setItem('fl_shop', JSON.stringify(shopChk)); } catch(e) {}
+}
+function savePhotos() {
+  try { localStorage.setItem('fl_photos', JSON.stringify(photos)); } catch(e) {}
+}
+
+var VIDS = {
+  'Hip Thrust': 'https://www.youtube.com/watch?v=xDmFkJxPzeM',
+  'Romanian Deadlift': 'https://www.youtube.com/watch?v=hCDzSR6bW10',
+  'Bulgarian Split Squat': 'https://www.youtube.com/watch?v=2C-uNgKwPLE',
+  'Barbell Back Squat': 'https://www.youtube.com/watch?v=bEv6CCg2BC8',
+  'Cable Kickback': 'https://www.youtube.com/watch?v=xdCyGalAcQQ',
+  'Sumo Deadlift': 'https://www.youtube.com/watch?v=XB_CFxoXZIE',
+  'Good Morning': 'https://www.youtube.com/watch?v=YA-h3n9L4YU',
+  'Bench Press': 'https://www.youtube.com/watch?v=rT7DgCr-3pg',
+  'Overhead Press': 'https://www.youtube.com/watch?v=qEwKCR5JCog',
+  'Barbell Row': 'https://www.youtube.com/watch?v=FWJR5Ve8bnQ',
+  'Deadlift': 'https://www.youtube.com/watch?v=op9kVnSso6Q',
+  'Pull-up': 'https://www.youtube.com/watch?v=eGo4IYlbE5g',
+  'Lat Pulldown': 'https://www.youtube.com/watch?v=CAwf7n6Luuc',
+  'Ab Wheel': 'https://www.youtube.com/watch?v=7B8pWMrSS_U',
+  'Dragon Flag': 'https://www.youtube.com/watch?v=MuzIMFt3NUo',
+  'Hanging Leg Raise': 'https://www.youtube.com/watch?v=hdng3Nm1x_E',
+  'Nordic Curl': 'https://www.youtube.com/watch?v=d8PSNADaqWQ'
 };
 
-// ── MEAL PLANS (rotating 7-day cycle) ─────────────────────────
-const MEALS=[
-  // Day A
-  {total:{cal:1850,p:135,c:180,f:58},meals:[
-    {time:'Breakfast',name:'Greek Yogurt Power Bowl',desc:'1 cup full-fat Greek yogurt, ½ cup mixed berries, 2 tbsp almond butter, 1 tbsp honey, 1 tbsp chia seeds',cal:420,p:28,c:38,f:16},
-    {time:'Lunch',name:'Grilled Chicken & Quinoa Bowl',desc:'5oz grilled chicken breast, ¾ cup cooked quinoa, roasted broccoli & bell peppers, olive oil & lemon dressing',cal:480,p:42,c:48,f:12},
-    {time:'Pre-Workout Snack',name:'Banana & Protein Shake',desc:'1 medium banana, 1 scoop whey protein (vanilla), 1 cup almond milk',cal:280,p:28,c:36,f:4},
-    {time:'Dinner',name:'Salmon with Sweet Potato & Asparagus',desc:'5oz baked salmon, 1 medium sweet potato, 1 cup asparagus, 1 tbsp olive oil',cal:520,p:38,c:42,f:18},
-    {time:'Evening Snack',name:'Cottage Cheese & Pineapple',desc:'¾ cup low-fat cottage cheese, ½ cup pineapple chunks',cal:150,p:19,c:16,f:2},
+var MEALS = [
+  {total:{cal:1850,p:135,c:180,f:58},items:[
+    {t:'Breakfast',n:'Greek Yogurt Power Bowl',d:'1 cup Greek yogurt, mixed berries, 2 tbsp almond butter, 1 tbsp honey, chia seeds',cal:420,p:28,c:38,f:16},
+    {t:'Lunch',n:'Grilled Chicken Quinoa Bowl',d:'5oz chicken breast, 3/4 cup quinoa, roasted broccoli and peppers, olive oil and lemon',cal:480,p:42,c:48,f:12},
+    {t:'Pre-Workout',n:'Banana Protein Shake',d:'1 banana, 1 scoop whey protein, 1 cup almond milk',cal:280,p:28,c:36,f:4},
+    {t:'Dinner',n:'Salmon Sweet Potato Asparagus',d:'5oz baked salmon, 1 medium sweet potato, 1 cup asparagus, olive oil',cal:520,p:38,c:42,f:18},
+    {t:'Evening',n:'Cottage Cheese and Pineapple',d:'3/4 cup cottage cheese, 1/2 cup pineapple',cal:150,p:19,c:16,f:2}
   ]},
-  // Day B
-  {total:{cal:1880,p:138,c:175,f:62},meals:[
-    {time:'Breakfast',name:'Protein Oatmeal',desc:'1 cup oats cooked, 1 scoop protein powder stirred in, 1 banana sliced, 1 tbsp peanut butter, cinnamon',cal:450,p:32,c:58,f:10},
-    {time:'Lunch',name:'Turkey & Avocado Wrap',desc:'5oz lean turkey breast, 1 whole-wheat wrap, ½ avocado, lettuce, tomato, mustard',cal:460,p:38,c:36,f:16},
-    {time:'Pre-Workout Snack',name:'Rice Cakes & Peanut Butter',desc:'3 rice cakes, 2 tbsp peanut butter, drizzle of honey',cal:280,p:10,c:34,f:14},
-    {time:'Dinner',name:'Lean Beef Stir-Fry',desc:'5oz lean ground beef (93%), 1 cup brown rice, mixed veggies (broccoli, snap peas, carrots), low-sodium soy sauce & ginger',cal:540,p:42,c:46,f:16},
-    {time:'Evening Snack',name:'Casein Protein Shake',desc:'1 scoop casein protein, 1 cup unsweetened almond milk — slow-digesting for overnight muscle repair',cal:150,p:26,c:6,f:3},
+  {total:{cal:1880,p:138,c:175,f:62},items:[
+    {t:'Breakfast',n:'Protein Oatmeal',d:'1 cup oats, 1 scoop protein powder, 1 banana, 1 tbsp peanut butter, cinnamon',cal:450,p:32,c:58,f:10},
+    {t:'Lunch',n:'Turkey Avocado Wrap',d:'5oz turkey breast, whole-wheat wrap, 1/2 avocado, lettuce, tomato',cal:460,p:38,c:36,f:16},
+    {t:'Pre-Workout',n:'Rice Cakes Peanut Butter',d:'3 rice cakes, 2 tbsp peanut butter, drizzle of honey',cal:280,p:10,c:34,f:14},
+    {t:'Dinner',n:'Lean Beef Stir Fry',d:'5oz lean ground beef, 1 cup brown rice, mixed veggies, low-sodium soy sauce',cal:540,p:42,c:46,f:16},
+    {t:'Evening',n:'Casein Protein Shake',d:'1 scoop casein protein, 1 cup almond milk - slow digesting overnight repair',cal:150,p:26,c:6,f:3}
   ]},
-  // Day C
-  {total:{cal:1820,p:132,c:170,f:60},meals:[
-    {time:'Breakfast',name:'Egg White Veggie Scramble',desc:'4 egg whites + 2 whole eggs, spinach, mushrooms, cherry tomatoes, feta cheese, 2 slices whole grain toast',cal:420,p:34,c:32,f:14},
-    {time:'Lunch',name:'Tuna Power Salad',desc:'1 can albacore tuna, mixed greens, cucumber, red onion, cherry tomatoes, 1 tbsp olive oil, balsamic vinegar, ¼ cup chickpeas',cal:380,p:38,c:26,f:12},
-    {time:'Pre-Workout Snack',name:'Apple & String Cheese',desc:'1 large apple, 2 string cheese sticks',cal:220,p:14,c:30,f:6},
-    {time:'Dinner',name:'Chicken Thighs & Roasted Veggies',desc:'5oz skinless chicken thighs, 1 cup roasted zucchini & eggplant, ½ cup wild rice, garlic & herb seasoning',cal:490,p:38,c:40,f:16},
-    {time:'Evening Snack',name:'Protein Pudding',desc:'1 scoop chocolate protein powder mixed with 6oz Greek yogurt — thick pudding consistency',cal:220,p:32,c:14,f:4},
+  {total:{cal:1820,p:132,c:170,f:60},items:[
+    {t:'Breakfast',n:'Egg White Veggie Scramble',d:'4 egg whites + 2 eggs, spinach, mushrooms, tomatoes, feta, 2 slices whole grain toast',cal:420,p:34,c:32,f:14},
+    {t:'Lunch',n:'Tuna Power Salad',d:'1 can tuna, mixed greens, cucumber, red onion, tomatoes, olive oil, chickpeas',cal:380,p:38,c:26,f:12},
+    {t:'Snack',n:'Apple and String Cheese',d:'1 large apple, 2 string cheese sticks',cal:220,p:14,c:30,f:6},
+    {t:'Dinner',n:'Chicken Thighs Roasted Veggies',d:'5oz chicken thighs, roasted zucchini and eggplant, 1/2 cup wild rice',cal:490,p:38,c:40,f:16},
+    {t:'Evening',n:'Protein Pudding',d:'1 scoop chocolate protein mixed with Greek yogurt - thick pudding',cal:220,p:32,c:14,f:4}
   ]},
-  // Day D
-  {total:{cal:1900,p:140,c:185,f:60},meals:[
-    {time:'Breakfast',name:'Smoothie Bowl',desc:'1 cup frozen acai or mixed berries, 1 scoop protein powder, ½ cup almond milk blended thick. Top: granola, sliced banana, coconut flakes',cal:440,p:30,c:56,f:12},
-    {time:'Lunch',name:'Shrimp Taco Bowls',desc:'5oz grilled shrimp, corn tortilla strips, black beans, brown rice, salsa, Greek yogurt instead of sour cream, cilantro',cal:480,p:40,c:52,f:10},
-    {time:'Pre-Workout Snack',name:'Dates & Walnuts',desc:'4 medjool dates, 1oz walnuts — natural quick energy',cal:270,p:4,c:46,f:10},
-    {time:'Dinner',name:'Baked Cod with Lentils & Kale',desc:'6oz baked cod, ¾ cup cooked green lentils, 2 cups sautéed kale, lemon & olive oil',cal:480,p:48,c:36,f:14},
-    {time:'Evening Snack',name:'Edamame',desc:'1 cup shelled edamame, light sea salt',cal:190,p:18,c:14,f:8},
+  {total:{cal:1900,p:140,c:185,f:60},items:[
+    {t:'Breakfast',n:'Smoothie Bowl',d:'Frozen berries + protein powder blended thick. Top with granola, banana, coconut flakes',cal:440,p:30,c:56,f:12},
+    {t:'Lunch',n:'Shrimp Taco Bowl',d:'5oz grilled shrimp, black beans, brown rice, salsa, Greek yogurt, cilantro',cal:480,p:40,c:52,f:10},
+    {t:'Pre-Workout',n:'Dates and Walnuts',d:'4 medjool dates, 1oz walnuts - natural quick energy',cal:270,p:4,c:46,f:10},
+    {t:'Dinner',n:'Baked Cod with Lentils and Kale',d:'6oz cod, 3/4 cup green lentils, 2 cups sauteed kale, lemon olive oil',cal:480,p:48,c:36,f:14},
+    {t:'Evening',n:'Edamame',d:'1 cup shelled edamame, sea salt',cal:190,p:18,c:14,f:8}
   ]},
-  // Day E (higher carb — post leg day recovery)
-  {total:{cal:1950,p:135,c:210,f:56},meals:[
-    {time:'Breakfast',name:'Whole Grain Pancakes + Eggs',desc:'3 whole grain pancakes (protein mix), 2 eggs scrambled, ½ cup mixed berries, 1 tbsp maple syrup',cal:500,p:32,c:62,f:14},
-    {time:'Lunch',name:'Chicken & Sweet Potato Meal Prep Bowl',desc:'5oz grilled chicken, 1 large sweet potato, steamed broccoli, 2 tbsp tahini drizzle',cal:520,p:42,c:56,f:14},
-    {time:'Pre-Workout Snack',name:'Protein Bar',desc:'1 high-protein bar (20g+ protein, ~200 cal — RX Bar, Quest, or similar)',cal:200,p:20,c:24,f:8},
-    {time:'Dinner',name:'Turkey Meatballs & Zucchini Pasta',desc:'5oz turkey meatballs, spiralized zucchini noodles, marinara sauce (low-sugar), parmesan',cal:480,p:38,c:38,f:16},
-    {time:'Evening Snack',name:'Rice Cake & Almond Butter',desc:'2 rice cakes, 1.5 tbsp almond butter',cal:190,p:5,c:24,f:9},
+  {total:{cal:1950,p:135,c:210,f:56},items:[
+    {t:'Breakfast',n:'Protein Pancakes and Eggs',d:'3 whole grain pancakes, 2 eggs scrambled, 1/2 cup berries, maple syrup',cal:500,p:32,c:62,f:14},
+    {t:'Lunch',n:'Chicken Sweet Potato Bowl',d:'5oz grilled chicken, 1 large sweet potato, steamed broccoli, tahini drizzle',cal:520,p:42,c:56,f:14},
+    {t:'Pre-Workout',n:'Protein Bar',d:'1 high-protein bar - 20g+ protein (RX Bar, Quest, or similar)',cal:200,p:20,c:24,f:8},
+    {t:'Dinner',n:'Turkey Meatballs Zucchini Pasta',d:'5oz turkey meatballs, spiralized zucchini, marinara sauce, parmesan',cal:480,p:38,c:38,f:16},
+    {t:'Evening',n:'Rice Cake Almond Butter',d:'2 rice cakes, 1.5 tbsp almond butter',cal:190,p:5,c:24,f:9}
   ]},
-  // Day F (lower carb — active rest)
-  {total:{cal:1700,p:140,c:130,f:70},meals:[
-    {time:'Breakfast',name:'Smoked Salmon Eggs Benedict',desc:'2 poached eggs, 2oz smoked salmon on 1 whole grain English muffin, spinach, light cream cheese',cal:420,p:32,c:28,f:18},
-    {time:'Lunch',name:'Big Kale & Chicken Caesar',desc:'5oz grilled chicken, 3 cups kale, 2 tbsp Caesar dressing (light), parmesan, 5 whole grain croutons',cal:420,p:42,c:22,f:18},
-    {time:'Afternoon Snack',name:'Hard Boiled Eggs & Veggies',desc:'3 hard-boiled eggs, cucumber slices, cherry tomatoes, hummus (2 tbsp)',cal:280,p:22,c:14,f:16},
-    {time:'Dinner',name:'Grass-Fed Steak & Salad',desc:'5oz grass-fed sirloin, large mixed green salad, avocado, olive oil & apple cider vinegar',cal:480,p:42,c:14,f:28},
-    {time:'Evening Snack',name:'Cottage Cheese & Almonds',desc:'½ cup cottage cheese, 1oz almonds',cal:200,p:18,c:8,f:12},
+  {total:{cal:1700,p:140,c:130,f:70},items:[
+    {t:'Breakfast',n:'Smoked Salmon Eggs Benedict',d:'2 poached eggs, 2oz smoked salmon on whole grain English muffin, spinach, cream cheese',cal:420,p:32,c:28,f:18},
+    {t:'Lunch',n:'Big Kale Chicken Caesar',d:'5oz grilled chicken, 3 cups kale, light Caesar dressing, parmesan',cal:420,p:42,c:22,f:18},
+    {t:'Snack',n:'Hard Boiled Eggs and Veggies',d:'3 hard boiled eggs, cucumber, cherry tomatoes, 2 tbsp hummus',cal:280,p:22,c:14,f:16},
+    {t:'Dinner',n:'Grass Fed Steak and Salad',d:'5oz grass fed sirloin, large mixed green salad, avocado, olive oil',cal:480,p:42,c:14,f:28},
+    {t:'Evening',n:'Cottage Cheese and Almonds',d:'1/2 cup cottage cheese, 1oz almonds',cal:200,p:18,c:8,f:12}
   ]},
-  // Day G (rest day — maintenance)
-  {total:{cal:1650,p:125,c:155,f:58},meals:[
-    {time:'Breakfast',name:'Avocado Toast & Eggs',desc:'2 slices sourdough, ½ avocado mashed, 2 poached eggs, red pepper flakes, everything bagel seasoning',cal:440,p:22,c:42,f:22},
-    {time:'Lunch',name:'Veggie & Lentil Soup',desc:'2 cups homemade or low-sodium lentil vegetable soup, 1 slice whole grain bread',cal:360,p:20,c:54,f:8},
-    {time:'Afternoon Snack',name:'Greek Yogurt & Walnuts',desc:'¾ cup Greek yogurt, 1oz walnuts, drizzle of honey',cal:280,p:18,c:18,f:14},
-    {time:'Dinner',name:'Baked Chicken Thighs & Roasted Root Veg',desc:'5oz chicken thighs, roasted carrots, parsnips & Brussels sprouts, olive oil & rosemary',cal:460,p:38,c:30,f:18},
-    {time:'Evening Snack',name:'Protein Hot Chocolate',desc:'1 scoop chocolate protein powder, 1 cup warm almond milk, dash cinnamon',cal:150,p:24,c:6,f:3},
-  ]},
+  {total:{cal:1650,p:125,c:155,f:58},items:[
+    {t:'Breakfast',n:'Avocado Toast and Eggs',d:'2 slices sourdough, 1/2 avocado mashed, 2 poached eggs, red pepper flakes',cal:440,p:22,c:42,f:22},
+    {t:'Lunch',n:'Veggie Lentil Soup',d:'2 cups lentil vegetable soup, 1 slice whole grain bread',cal:360,p:20,c:54,f:8},
+    {t:'Snack',n:'Greek Yogurt and Walnuts',d:'3/4 cup Greek yogurt, 1oz walnuts, drizzle of honey',cal:280,p:18,c:18,f:14},
+    {t:'Dinner',n:'Baked Chicken Roasted Root Veg',d:'5oz chicken thighs, roasted carrots, parsnips, Brussels sprouts, rosemary',cal:460,p:38,c:30,f:18},
+    {t:'Evening',n:'Protein Hot Chocolate',d:'1 scoop chocolate protein, warm almond milk, cinnamon',cal:150,p:24,c:6,f:3}
+  ]}
 ];
 
-// ── HARD CHECKLIST ITEMS ───────────────────────────────────────
-const HARD_ITEMS=[
-  {key:'w1',label:'Workout 1 complete (45+ min)'},
-  {key:'w2',label:'Workout 2 complete — OUTDOORS (45+ min)'},
-  {key:'water',label:'1 gallon (128oz) of water consumed'},
-  {key:'diet',label:'Meal plan followed — no cheats'},
-  {key:'read',label:'10 pages of non-fiction read'},
-  {key:'photo',label:'Daily progress photo taken'},
+var HARD_ITEMS = [
+  {k:'w1', lbl:'Workout 1 complete - gym 45+ min'},
+  {k:'w2', lbl:'Workout 2 complete - OUTDOORS 45+ min'},
+  {k:'water', lbl:'1 gallon of water consumed'},
+  {k:'diet', lbl:'Meal plan followed - no cheats'},
+  {k:'read', lbl:'10 pages non-fiction read'},
+  {k:'photo', lbl:'Daily progress photo taken'}
 ];
 
-// ── PHASE 1: RAMP DAYS 1-15 ───────────────────────────────────
-const PHASE1=[
-  {day:1,title:'Lower Body — Glute Introduction',phase:'RAMP PHASE',outdoor:false,focus:'Glutes + Core',sections:[
-    {label:'Warm-Up — 10 min',ex:[{n:'Hip circles',d:'2×10 each',v:null},{n:'Glute bridge',d:'2×15 BW',v:null},{n:'Banded side walks',d:'2×20 steps',v:null}]},
-    {label:'Glute Focus — 3 rounds',ex:[{n:'Hip Thrust',d:'3×12 @ BW',v:'Hip Thrust'},{n:'Romanian Deadlift',d:'3×12 @ light DB',v:'Romanian Deadlift'},{n:'Cable Kickback',d:'3×15 each',v:'Cable Kickback'}]},
-    {label:'Core — 3 rounds',ex:[{n:'Dead bug',d:'3×10 each side',v:null},{n:'Plank',d:'3×25 sec',v:null},{n:'Bird dog',d:'3×10 each',v:null}]},
-  ]},
-  {day:2,title:'Outdoor Walk + Stretch',phase:'RAMP PHASE',outdoor:true,focus:'Active Recovery',sections:[
-    {label:'Outdoor Walk — 45 min',ex:[{n:'Brisk outdoor walk',d:'45 min',v:null}]},
-    {label:'Post-Walk Stretch — 15 min',ex:[{n:'Hip flexor lunge stretch',d:'60 sec each',v:null},{n:'Seated hamstring stretch',d:'60 sec each',v:null},{n:'Pigeon pose',d:'60 sec each',v:null}]},
-  ]},
-  {day:3,title:'Upper Body + Core',phase:'RAMP PHASE',outdoor:false,focus:'Arms + Shoulders + Core',sections:[
-    {label:'Warm-Up',ex:[{n:'Arm circles & band pull-aparts',d:'2×15',v:null}]},
-    {label:'Upper Body — 3 rounds',ex:[{n:'DB shoulder press',d:'3×12 @ light',v:null},{n:'DB lateral raise',d:'3×15 @ 8-10 lb',v:null},{n:'Lat Pulldown',d:'3×12 @ moderate',v:'Lat Pulldown'},{n:'Cable row',d:'3×12 @ moderate',v:null},{n:'Tricep pushdown',d:'3×15',v:null},{n:'Bicep curl',d:'3×12',v:null}]},
-    {label:'Core Finisher',ex:[{n:'Russian twist',d:'3×20',v:null},{n:'Leg raise',d:'3×12',v:null},{n:'Ab wheel rollout',d:'3×8',v:'Ab Wheel Rollout'}]},
-  ]},
-  {day:4,title:'Glute & Hamstring Focus',phase:'RAMP PHASE',outdoor:false,focus:'Posterior Chain',sections:[
-    {label:'Warm-Up',ex:[{n:'Banded glute bridges',d:'3×20',v:null},{n:'Clamshells',d:'2×20 each',v:null}]},
-    {label:'Main Lifts — 4 rounds',ex:[{n:'Barbell Back Squat',d:'4×10 @ light-moderate',v:'Barbell Back Squat'},{n:'Romanian Deadlift',d:'4×10 @ moderate DB',v:'Romanian Deadlift'},{n:'Bulgarian Split Squat',d:'3×10 each @ BW',v:'Bulgarian Split Squat'}]},
-    {label:'Accessory',ex:[{n:'Leg curl',d:'3×15',v:null},{n:'Standing calf raise',d:'3×20',v:null}]},
-  ]},
-  {day:5,title:'Full Body Circuit',phase:'RAMP PHASE',outdoor:false,focus:'Total Body Activation',sections:[
-    {label:'Circuit — 4 rounds, 45 sec rest',ex:[{n:'Goblet squat',d:'4×15',v:null},{n:'Push-up',d:'4×10',v:null},{n:'DB row',d:'4×12 each',v:null},{n:'Hip thrust',d:'4×15',v:'Hip Thrust'},{n:'Plank',d:'4×30 sec',v:null}]},
-  ]},
-  {day:6,title:'Cardio + Core',phase:'RAMP PHASE',outdoor:false,focus:'Conditioning + Abs',sections:[
-    {label:'Cardio — 25 min',ex:[{n:'Treadmill incline walk or bike',d:'25 min, zone 2',v:null}]},
-    {label:'Core Circuit — 4 rounds',ex:[{n:'Hanging Leg Raise',d:'4×12',v:'Hanging Leg Raise'},{n:'Cable crunch',d:'4×15',v:null},{n:'Side plank',d:'3×30 sec each',v:null},{n:'Mountain climbers',d:'3×30 sec',v:null}]},
-  ]},
-  {day:7,title:'Rest Day',phase:'RAMP PHASE',outdoor:false,focus:'Recovery',sections:[
-    {label:'Recovery',ex:[{n:'Gentle yoga or foam roll',d:'20 min',v:null},{n:'Meal prep for the week',d:'Recommended',v:null},{n:'Hydration focus',d:'Drink 80+ oz',v:null}]},
-  ]},
-  {day:8,title:'Glute & Quad Focus — Volume',phase:'RAMP PHASE',outdoor:false,focus:'Glutes + Quads',sections:[
-    {label:'Main Lifts — increase weight',ex:[{n:'Hip Thrust',d:'4×12 @ add 10-20 lb',v:'Hip Thrust'},{n:'Barbell Back Squat',d:'4×10',v:'Barbell Back Squat'},{n:'Bulgarian Split Squat',d:'3×12 each',v:'Bulgarian Split Squat'},{n:'Cable Kickback',d:'4×15 each',v:'Cable Kickback'}]},
-    {label:'Core',ex:[{n:'Weighted crunch',d:'3×20',v:null},{n:'Plank with hip dip',d:'3×30 sec',v:null}]},
-  ]},
-  {day:9,title:'Outdoor Jog/Walk Intervals',phase:'RAMP PHASE',outdoor:true,focus:'Cardio + Fat Burn',sections:[
-    {label:'Intervals — 45 min',ex:[{n:'2 min walk / 1 min jog',d:'Repeat 12–15 rounds',v:null},{n:'Cool-down walk',d:'5 min',v:null}]},
-  ]},
-  {day:10,title:'Upper Body — Push & Pull',phase:'RAMP PHASE',outdoor:false,focus:'Arms + Back + Shoulders',sections:[
-    {label:'Push — 4 sets',ex:[{n:'Bench Press',d:'4×10 @ moderate',v:'Bench Press'},{n:'Overhead Press',d:'3×12',v:'Overhead Press'},{n:'Tricep dip',d:'3×12',v:null}]},
-    {label:'Pull — 4 sets',ex:[{n:'Lat Pulldown',d:'4×10',v:'Lat Pulldown'},{n:'Barbell Row',d:'4×10',v:'Barbell Row'},{n:'Face pull',d:'3×15',v:null}]},
-  ]},
-  {day:11,title:'HIIT + Glute Finisher',phase:'RAMP PHASE',outdoor:false,focus:'Fat Burn + Glutes',sections:[
-    {label:'HIIT — 20 min',ex:[{n:'Jump squat',d:'30 sec on/off × 10',v:null},{n:'Burpee',d:'20 sec on / 40 sec off × 8',v:null},{n:'High knees',d:'30 sec on/off × 8',v:null}]},
-    {label:'Glute Burnout',ex:[{n:'Hip thrust',d:'4×20 @ bodyweight',v:'Hip Thrust'},{n:'Donkey kick',d:'3×20 each',v:null},{n:'Fire hydrant',d:'3×20 each',v:null}]},
-  ]},
-  {day:12,title:'Lower Body — Hamstrings & Glutes',phase:'RAMP PHASE',outdoor:false,focus:'Posterior Chain',sections:[
-    {label:'Main — 4 rounds',ex:[{n:'Sumo Deadlift',d:'4×10 @ moderate',v:'Sumo Deadlift'},{n:'Good Morning',d:'3×12 @ light',v:'Good Morning'},{n:'Leg curl',d:'4×12',v:null},{n:'Standing abductor cable',d:'3×15 each',v:null}]},
-    {label:'Core',ex:[{n:'Ab Wheel Rollout',d:'3×10',v:'Ab Wheel Rollout'},{n:'Bicycle crunch',d:'3×20',v:null}]},
-  ]},
-  {day:13,title:'Long Outdoor Walk',phase:'RAMP PHASE',outdoor:true,focus:'Active Recovery',sections:[
-    {label:'Walk — 60 min',ex:[{n:'Steady brisk walk',d:'60 min, any terrain',v:null},{n:'Phone away — use the time to think',d:'Mental reset',v:null}]},
-  ]},
-  {day:14,title:'Full Body — Compound Strength',phase:'RAMP PHASE',outdoor:false,focus:'Total Body Strength',sections:[
-    {label:'Compound Circuit — 4 rounds',ex:[{n:'Deadlift',d:'4×8 @ moderate',v:'Deadlift'},{n:'Hip Thrust',d:'4×12',v:'Hip Thrust'},{n:'Overhead Press',d:'4×10',v:'Overhead Press'},{n:'Pull-up / Lat Pulldown',d:'4×8',v:'Pull-up'},{n:'Plank',d:'4×40 sec',v:null}]},
-  ]},
-  {day:15,title:'Rest + Prepare for 75 Hard',phase:'RAMP PHASE',outdoor:false,focus:'Prepare',sections:[
-    {label:'Today',ex:[{n:'Rest or gentle 20-min walk',d:'Optional',v:null},{n:'Plan your meals for the week',d:'Prep what you can',v:null},{n:'Buy a gallon water jug',d:'Essential',v:null},{n:'Set two workout time slots',d:'Morning + Evening',v:null},{n:'Pick your non-fiction book',d:'10 pages/day starts tomorrow',v:null}]},
-  ]},
+var P1_ITEMS = [
+  {k:'w1', lbl:'Workout complete - 45+ min'},
+  {k:'water', lbl:'80+ oz water consumed'},
+  {k:'diet', lbl:'Meal plan followed'},
+  {k:'photo', lbl:'Progress photo taken'}
 ];
 
-// ── PHASE 2A TEMPLATES (Days 16–45) ───────────────────────────
-const GYM_A=[
-  {title:'Glute Day — Hip Thrust Focus',focus:'Glutes',sections:[
-    {label:'Warm-Up',ex:[{n:'Banded glute bridge',d:'3×20',v:null},{n:'Clamshell',d:'2×20 each',v:null}]},
-    {label:'Main — 4 sets',ex:[{n:'Hip Thrust',d:'4×12 progressive load',v:'Hip Thrust'},{n:'Bulgarian Split Squat',d:'4×10 each',v:'Bulgarian Split Squat'},{n:'Cable Kickback',d:'4×15 each',v:'Cable Kickback'},{n:'Sumo Deadlift',d:'4×10',v:'Sumo Deadlift'}]},
-    {label:'Core Finisher',ex:[{n:'Hanging Leg Raise',d:'4×12',v:'Hanging Leg Raise'},{n:'Plank',d:'3×45 sec',v:null}]},
-  ]},
-  {title:'Upper Body — Push & Pull Power',focus:'Upper Body',sections:[
-    {label:'Push — 4 sets',ex:[{n:'Bench Press',d:'4×8 progressive',v:'Bench Press'},{n:'Overhead Press',d:'4×8',v:'Overhead Press'},{n:'Incline DB press',d:'3×12',v:null}]},
-    {label:'Pull — 4 sets',ex:[{n:'Pull-up',d:'4×8',v:'Pull-up'},{n:'Barbell Row',d:'4×10',v:'Barbell Row'},{n:'Face pull',d:'3×15',v:null}]},
-    {label:'Core',ex:[{n:'Ab Wheel Rollout',d:'4×10',v:'Ab Wheel Rollout'},{n:'Russian twist',d:'3×20',v:null}]},
-  ]},
-  {title:'Lower Body — Squat & Deadlift',focus:'Legs + Glutes',sections:[
-    {label:'Squat',ex:[{n:'Barbell Back Squat',d:'5×5 progressive',v:'Barbell Back Squat'},{n:'Romanian Deadlift',d:'4×10',v:'Romanian Deadlift'},{n:'Leg press',d:'3×15',v:null}]},
-    {label:'Accessory',ex:[{n:'Leg curl',d:'3×15',v:null},{n:'Standing calf raise',d:'4×20',v:null},{n:'Cable abductor',d:'3×15 each',v:null}]},
-  ]},
-  {title:'HIIT + Glute Burnout',focus:'Cardio + Glutes',sections:[
-    {label:'HIIT — 20 min',ex:[{n:'Jump squat',d:'30 sec on/off × 10',v:null},{n:'Curtsy lunge',d:'30 sec on/off × 8',v:null},{n:'Plank jacks',d:'30 sec on/off × 8',v:null}]},
-    {label:'Glute Burnout',ex:[{n:'Hip Thrust',d:'5×20 BW fast',v:'Hip Thrust'},{n:'Donkey kick',d:'4×20 each',v:null},{n:'Fire hydrant',d:'4×20 each',v:null}]},
-  ]},
-  {title:'Full Body Sculpt',focus:'Total Body Definition',sections:[
-    {label:'Circuit — 5 rounds',ex:[{n:'Deadlift',d:'5×6 heavy',v:'Deadlift'},{n:'Hip Thrust',d:'5×12',v:'Hip Thrust'},{n:'Push-up',d:'5×15',v:null},{n:'Lat Pulldown',d:'5×10',v:'Lat Pulldown'},{n:'Plank',d:'5×45 sec',v:null}]},
-  ]},
-  {title:'Hamstring & Posterior Chain',focus:'Hamstrings + Glutes',sections:[
-    {label:'Main — 4 sets',ex:[{n:'Good Morning',d:'4×12',v:'Good Morning'},{n:'Nordic Curl',d:'4×6',v:'Nordic Curl'},{n:'Romanian Deadlift',d:'4×12',v:'Romanian Deadlift'},{n:'Cable Kickback',d:'4×15 each',v:'Cable Kickback'}]},
-    {label:'Core',ex:[{n:'Dragon Flag',d:'3×6',v:'Dragon Flag'},{n:'Side plank',d:'3×40 sec each',v:null}]},
-  ]},
-  {title:'Active Recovery + Core Deep Dive',focus:'Core + Mobility',sections:[
-    {label:'Core — 4 rounds',ex:[{n:'Hanging Leg Raise',d:'4×15',v:'Hanging Leg Raise'},{n:'Ab Wheel Rollout',d:'4×10',v:'Ab Wheel Rollout'},{n:'Cable crunch',d:'4×15',v:null},{n:'Bicycle crunch',d:'4×20',v:null}]},
-    {label:'Mobility',ex:[{n:'Hip flexor stretch',d:'60 sec each',v:null},{n:'Foam roll glutes & hamstrings',d:'10 min',v:null}]},
-  ]},
-];
-
-const GYM_B=[
-  {title:'Heavy Glute Day — Max Load',focus:'Glutes — Progressive Overload',sections:[
-    {label:'Main — 5 sets',ex:[{n:'Hip Thrust',d:'5×8 heavy — add weight weekly',v:'Hip Thrust'},{n:'Bulgarian Split Squat',d:'4×10 each @ heavier',v:'Bulgarian Split Squat'},{n:'Sumo Deadlift',d:'4×8 heavy',v:'Sumo Deadlift'},{n:'Cable Kickback',d:'4×20 each',v:'Cable Kickback'}]},
-    {label:'Core Finisher',ex:[{n:'Dragon Flag',d:'4×8',v:'Dragon Flag'},{n:'Weighted plank',d:'4×45 sec',v:null}]},
-  ]},
-  {title:'Upper Push + Core Power',focus:'Shoulders + Chest + Triceps + Abs',sections:[
-    {label:'Push — 5 sets',ex:[{n:'Overhead Press',d:'5×6 heavy',v:'Overhead Press'},{n:'Bench Press',d:'4×8',v:'Bench Press'},{n:'Lateral raise',d:'4×15 @ increase weight',v:null},{n:'Tricep overhead extension',d:'4×12',v:null}]},
-    {label:'Core',ex:[{n:'Hanging Leg Raise',d:'5×15',v:'Hanging Leg Raise'},{n:'Ab Wheel Rollout',d:'4×12',v:'Ab Wheel Rollout'},{n:'Plank',d:'4×60 sec',v:null}]},
-  ]},
-  {title:'Lower Body Power — Deadlift Focus',focus:'Hamstrings + Glutes + Quads',sections:[
-    {label:'Main',ex:[{n:'Deadlift',d:'5×5 max effort',v:'Deadlift'},{n:'Romanian Deadlift',d:'4×10',v:'Romanian Deadlift'},{n:'Barbell Back Squat',d:'4×8',v:'Barbell Back Squat'},{n:'Nordic Curl',d:'4×6',v:'Nordic Curl'}]},
-    {label:'Accessory',ex:[{n:'Leg press',d:'3×20',v:null},{n:'Standing abductor',d:'3×20 each',v:null},{n:'Calf raise',d:'5×20',v:null}]},
-  ]},
-  {title:'HIIT Sprint + Glute Superset',focus:'Fat Burn + Glute Pump',sections:[
-    {label:'HIIT — 25 min',ex:[{n:'Treadmill sprint',d:'30 sec @ 8-9 mph / 90 sec walk × 10',v:null},{n:'Jump lunge',d:'30 sec on/off × 8',v:null}]},
-    {label:'Glute Superset × 5',ex:[{n:'Hip Thrust + Donkey Kick',d:'20 reps each, no rest between',v:'Hip Thrust'},{n:'Cable Kickback + Fire Hydrant',d:'15 each, no rest',v:'Cable Kickback'}]},
-  ]},
-  {title:'Full Body — Strength Endurance',focus:'Total Body Sculpt',sections:[
-    {label:'AMRAP 25 min',ex:[{n:'10 deadlifts, 12 hip thrusts, 10 push-ups, 12 rows, 15 ab wheel',d:'As many rounds as possible',v:'Deadlift'}]},
-    {label:'Core Burnout',ex:[{n:'Dragon Flag',d:'4×8',v:'Dragon Flag'},{n:'Bicycle crunch',d:'4×30',v:null},{n:'Side plank',d:'4×45 sec each',v:null}]},
-  ]},
-  {title:'Pull & Posterior Chain',focus:'Back + Hamstrings + Glutes',sections:[
-    {label:'Pull — 5 sets',ex:[{n:'Pull-up',d:'5×8 weighted if possible',v:'Pull-up'},{n:'Barbell Row',d:'5×8 heavy',v:'Barbell Row'},{n:'Good Morning',d:'4×12',v:'Good Morning'},{n:'Face pull',d:'4×15',v:null}]},
-    {label:'Core',ex:[{n:'Hanging Leg Raise',d:'5×15',v:'Hanging Leg Raise'},{n:'Weighted crunch',d:'4×20',v:null}]},
-  ]},
-  {title:'Mobility & Core Deep Dive',focus:'Flexibility + Abs',sections:[
-    {label:'Core — 5 rounds',ex:[{n:'Ab Wheel Rollout',d:'5×12',v:'Ab Wheel Rollout'},{n:'Dragon Flag',d:'4×8',v:'Dragon Flag'},{n:'Hanging Leg Raise',d:'5×15',v:'Hanging Leg Raise'},{n:'Cable crunch',d:'4×20',v:null}]},
-    {label:'Stretch',ex:[{n:'Full body yoga flow or stretch',d:'20 min',v:null},{n:'Foam roll glutes, hamstrings, upper back',d:'10 min',v:null}]},
-  ]},
-];
-
-const OUT_A=['45-min brisk outdoor walk — hilly terrain preferred','45-min run/walk intervals (2 min walk / 1 min jog)','45-min outdoor jog at comfortable Zone 2 pace','45-min outdoor stair climbs or hill repeats','45-min bike ride outdoors — moderate resistance','45-min outdoor yoga or stretch session in fresh air','45-min power walk — use the time to listen to your book'];
-const OUT_B=['60-min outdoor hike or trail walk with elevation','60-min outdoor run/walk — push the run portions','45-min outdoor HIIT in the park (sprints + bodyweight)','60-min bike ride — high resistance, challenging pace','45-min outdoor stairs or bleacher repeats','60-min outdoor power walk at 4.0+ mph pace','45-min outdoor cardio circuit: jump rope, sprints, lunges'];
-
-const PHASE2A=[];
-for(let i=0;i<30;i++){const day=16+i,gym=GYM_A[i%GYM_A.length];PHASE2A.push({day,title:gym.title,focus:gym.focus,phase:'75 HARD — PHASE 2A',outdoor:true,outdoorDesc:OUT_A[i%OUT_A.length],sections:gym.sections});}
-const PHASE2B=[];
-for(let i=0;i<45;i++){const day=46+i,gym=GYM_B[i%GYM_B.length];PHASE2B.push({day,title:gym.title,focus:gym.focus,phase:'75 HARD — PHASE 2B',outdoor:true,outdoorDesc:OUT_B[i%OUT_B.length],sections:gym.sections});}
-const ALL_DAYS=[...PHASE1,...PHASE2A,...PHASE2B];
-
-// ── RENDER LIST ────────────────────────────────────────────────
-function renderPhase(idx){
-  currentPhaseTab=idx;
-  const content=document.getElementById('phaseContent');
-  content.innerHTML='';
-  let days,weeks;
-  if(idx===0){days=PHASE1;weeks=[{l:'Week 1 — Days 1–7',s:0,e:7},{l:'Week 2 — Days 8–15',s:7,e:15}];}
-  else if(idx===1){days=PHASE2A;weeks=[{l:'Days 16–22',s:0,e:7},{l:'Days 23–29',s:7,e:14},{l:'Days 30–36',s:14,e:21},{l:'Days 37–45',s:21,e:30}];}
-  else{days=PHASE2B;weeks=[{l:'Days 46–52',s:0,e:7},{l:'Days 53–59',s:7,e:14},{l:'Days 60–66',s:14,e:21},{l:'Days 67–73',s:21,e:28},{l:'Days 74–82',s:28,e:37},{l:'Days 83–90 — FINAL PUSH',s:37,e:45}];}
-  weeks.forEach(w=>{
-    const wh=document.createElement('div');wh.className='week-header';wh.textContent=w.l;content.appendChild(wh);
-    days.slice(w.s,w.e).forEach(d=>{
-      const gi=ALL_DAYS.findIndex(x=>x.day===d.day),done=!!completedDays[d.day];
-      const row=document.createElement('div');row.className='day-row'+(done?' done':'');row.onclick=()=>openDay(gi);
-      row.innerHTML=`<div class="check-col"><div class="check-circle">${done?'✓':''}</div></div>
-        <div class="day-info"><div class="day-num">DAY ${d.day}</div>
-        <div class="day-title">${d.title}</div>
-        <div class="day-sub">${d.focus||d.phase}${d.outdoor?' · 🌿 Outdoor':''}</div></div>
-        <div class="arrow-col">›</div>`;
-      content.appendChild(row);
-    });
-  });
+function makeEx(name, detail, vidKey) {
+  var vurl = vidKey && VIDS[vidKey] ? VIDS[vidKey] : null;
+  return {n: name, d: detail, v: vurl};
 }
-function switchPhase(idx){
-  document.querySelectorAll('.ptab').forEach(t=>t.classList.toggle('active',+t.dataset.phase===idx));
-  renderPhase(idx);
+
+var P1 = [
+  {day:1, title:'Lower Body - Glute Intro', focus:'Glutes + Core', outdoor:false, sections:[
+    {lbl:'Warm-Up', ex:[makeEx('Banded glute bridge','2x20',null),makeEx('Hip circles','2x10 each',null),makeEx('Clamshell','2x15 each',null)]},
+    {lbl:'Main - 3 rounds', ex:[makeEx('Hip Thrust','3x12 bodyweight','Hip Thrust'),makeEx('Romanian Deadlift','3x12 light DB','Romanian Deadlift'),makeEx('Cable Kickback','3x15 each','Cable Kickback')]},
+    {lbl:'Core', ex:[makeEx('Dead bug','3x10 each',null),makeEx('Plank','3x25 sec',null),makeEx('Bird dog','3x10 each',null)]}
+  ]},
+  {day:2, title:'Outdoor Walk + Stretch', focus:'Active Recovery', outdoor:true, sections:[
+    {lbl:'Outdoor Walk', ex:[makeEx('Brisk outdoor walk','45 min',null)]},
+    {lbl:'Stretch', ex:[makeEx('Hip flexor stretch','60 sec each',null),makeEx('Hamstring stretch','60 sec each',null),makeEx('Pigeon pose','60 sec each',null)]}
+  ]},
+  {day:3, title:'Upper Body + Core', focus:'Arms + Shoulders + Abs', outdoor:false, sections:[
+    {lbl:'Upper Body - 3 rounds', ex:[makeEx('DB shoulder press','3x12',null),makeEx('Lat Pulldown','3x12','Lat Pulldown'),makeEx('Cable row','3x12',null),makeEx('Tricep pushdown','3x15',null),makeEx('Bicep curl','3x12',null)]},
+    {lbl:'Core', ex:[makeEx('Ab Wheel','3x8','Ab Wheel'),makeEx('Hanging Leg Raise','3x12','Hanging Leg Raise'),makeEx('Russian twist','3x20',null)]}
+  ]},
+  {day:4, title:'Glute and Hamstring Focus', focus:'Posterior Chain', outdoor:false, sections:[
+    {lbl:'Main - 4 rounds', ex:[makeEx('Barbell Back Squat','4x10 light-moderate','Barbell Back Squat'),makeEx('Romanian Deadlift','4x10 moderate','Romanian Deadlift'),makeEx('Bulgarian Split Squat','3x10 each bodyweight','Bulgarian Split Squat')]},
+    {lbl:'Accessory', ex:[makeEx('Leg curl','3x15',null),makeEx('Calf raise','3x20',null)]}
+  ]},
+  {day:5, title:'Full Body Circuit', focus:'Total Body Activation', outdoor:false, sections:[
+    {lbl:'Circuit - 4 rounds', ex:[makeEx('Goblet squat','4x15',null),makeEx('Push-up','4x10',null),makeEx('DB row','4x12 each',null),makeEx('Hip Thrust','4x15','Hip Thrust'),makeEx('Plank','4x30 sec',null)]}
+  ]},
+  {day:6, title:'Cardio + Core', focus:'Conditioning + Abs', outdoor:false, sections:[
+    {lbl:'Cardio - 25 min', ex:[makeEx('Treadmill incline or bike','25 min zone 2',null)]},
+    {lbl:'Core - 4 rounds', ex:[makeEx('Hanging Leg Raise','4x12','Hanging Leg Raise'),makeEx('Cable crunch','4x15',null),makeEx('Side plank','3x30 sec each',null),makeEx('Mountain climbers','3x30 sec',null)]}
+  ]},
+  {day:7, title:'Rest Day', focus:'Recovery', outdoor:false, sections:[
+    {lbl:'Recovery', ex:[makeEx('Gentle yoga or foam roll','20 min',null),makeEx('Meal prep for the week','Recommended',null),makeEx('Hydration focus','Drink 80+ oz',null)]}
+  ]},
+  {day:8, title:'Glute and Quad Volume', focus:'Glutes + Quads', outdoor:false, sections:[
+    {lbl:'Main - 4 rounds', ex:[makeEx('Hip Thrust','4x12 add weight','Hip Thrust'),makeEx('Barbell Back Squat','4x10','Barbell Back Squat'),makeEx('Bulgarian Split Squat','3x12 each','Bulgarian Split Squat'),makeEx('Cable Kickback','4x15 each','Cable Kickback')]},
+    {lbl:'Core', ex:[makeEx('Weighted crunch','3x20',null),makeEx('Plank hip dip','3x30 sec',null)]}
+  ]},
+  {day:9, title:'Outdoor Jog Walk Intervals', focus:'Cardio + Fat Burn', outdoor:true, sections:[
+    {lbl:'Intervals - 45 min', ex:[makeEx('2 min walk / 1 min jog','Repeat 12-15 rounds',null),makeEx('Cool-down walk','5 min',null)]}
+  ]},
+  {day:10, title:'Upper Body Push and Pull', focus:'Arms + Back + Shoulders', outdoor:false, sections:[
+    {lbl:'Push - 4 sets', ex:[makeEx('Bench Press','4x10 moderate','Bench Press'),makeEx('Overhead Press','3x12','Overhead Press'),makeEx('Tricep dip','3x12',null)]},
+    {lbl:'Pull - 4 sets', ex:[makeEx('Lat Pulldown','4x10','Lat Pulldown'),makeEx('Barbell Row','4x10','Barbell Row'),makeEx('Face pull','3x15',null)]}
+  ]},
+  {day:11, title:'HIIT + Glute Finisher', focus:'Fat Burn + Glutes', outdoor:false, sections:[
+    {lbl:'HIIT - 20 min', ex:[makeEx('Jump squat','30 sec on/off x10',null),makeEx('Burpee','20 sec on / 40 sec off x8',null),makeEx('High knees','30 sec on/off x8',null)]},
+    {lbl:'Glute Burnout', ex:[makeEx('Hip Thrust','4x20 bodyweight','Hip Thrust'),makeEx('Donkey kick','3x20 each',null),makeEx('Fire hydrant','3x20 each',null)]}
+  ]},
+  {day:12, title:'Lower Body Hamstrings Glutes', focus:'Posterior Chain', outdoor:false, sections:[
+    {lbl:'Main - 4 rounds', ex:[makeEx('Sumo Deadlift','4x10 moderate','Sumo Deadlift'),makeEx('Good Morning','3x12 light','Good Morning'),makeEx('Leg curl','4x12',null),makeEx('Cable abductor','3x15 each',null)]},
+    {lbl:'Core', ex:[makeEx('Ab Wheel','3x10','Ab Wheel'),makeEx('Bicycle crunch','3x20',null)]}
+  ]},
+  {day:13, title:'Long Outdoor Walk', focus:'Active Recovery', outdoor:true, sections:[
+    {lbl:'Walk - 60 min', ex:[makeEx('Steady brisk walk','60 min any terrain',null),makeEx('Mental reset','Phone away',null)]}
+  ]},
+  {day:14, title:'Full Body Compound Strength', focus:'Total Body Strength', outdoor:false, sections:[
+    {lbl:'Compound - 4 rounds', ex:[makeEx('Deadlift','4x8 moderate','Deadlift'),makeEx('Hip Thrust','4x12','Hip Thrust'),makeEx('Overhead Press','4x10','Overhead Press'),makeEx('Pull-up or Lat Pulldown','4x8','Pull-up'),makeEx('Plank','4x40 sec',null)]}
+  ]},
+  {day:15, title:'Rest - Prepare for 75 Hard', focus:'Prepare', outdoor:false, sections:[
+    {lbl:'Today', ex:[makeEx('Rest or gentle walk','Optional 20 min',null),makeEx('Plan meals for the week','Prep what you can',null),makeEx('Buy a gallon water jug','Essential',null),makeEx('Set two daily workout slots','Morning + Evening',null),makeEx('Pick your non-fiction book','10 pages per day starts tomorrow',null)]}
+  ]}
+];
+
+var GYM_A = [
+  {title:'Glute Day - Hip Thrust Focus', focus:'Glutes', sections:[
+    {lbl:'Warm-Up', ex:[makeEx('Banded glute bridge','3x20',null),makeEx('Clamshell','2x20 each',null)]},
+    {lbl:'Main - 4 sets', ex:[makeEx('Hip Thrust','4x12 progressive load','Hip Thrust'),makeEx('Bulgarian Split Squat','4x10 each','Bulgarian Split Squat'),makeEx('Cable Kickback','4x15 each','Cable Kickback'),makeEx('Sumo Deadlift','4x10','Sumo Deadlift')]},
+    {lbl:'Core', ex:[makeEx('Hanging Leg Raise','4x12','Hanging Leg Raise'),makeEx('Plank','3x45 sec',null)]}
+  ]},
+  {title:'Upper Body Push and Pull Power', focus:'Upper Body', sections:[
+    {lbl:'Push - 4 sets', ex:[makeEx('Bench Press','4x8 progressive','Bench Press'),makeEx('Overhead Press','4x8','Overhead Press'),makeEx('Incline DB press','3x12',null)]},
+    {lbl:'Pull - 4 sets', ex:[makeEx('Pull-up','4x8','Pull-up'),makeEx('Barbell Row','4x10','Barbell Row'),makeEx('Face pull','3x15',null)]},
+    {lbl:'Core', ex:[makeEx('Ab Wheel','4x10','Ab Wheel'),makeEx('Russian twist','3x20',null)]}
+  ]},
+  {title:'Lower Body Squat and Deadlift', focus:'Legs + Glutes', sections:[
+    {lbl:'Squat', ex:[makeEx('Barbell Back Squat','5x5 progressive','Barbell Back Squat'),makeEx('Romanian Deadlift','4x10','Romanian Deadlift'),makeEx('Leg press','3x15',null)]},
+    {lbl:'Accessory', ex:[makeEx('Leg curl','3x15',null),makeEx('Calf raise','4x20',null),makeEx('Cable abductor','3x15 each',null)]}
+  ]},
+  {title:'HIIT and Glute Burnout', focus:'Cardio + Glutes', sections:[
+    {lbl:'HIIT - 20 min', ex:[makeEx('Jump squat','30 sec on/off x10',null),makeEx('Curtsy lunge','30 sec on/off x8',null),makeEx('Plank jacks','30 sec on/off x8',null)]},
+    {lbl:'Glute Burnout', ex:[makeEx('Hip Thrust','5x20 bodyweight fast','Hip Thrust'),makeEx('Donkey kick','4x20 each',null),makeEx('Fire hydrant','4x20 each',null)]}
+  ]},
+  {title:'Full Body Sculpt', focus:'Total Body Definition', sections:[
+    {lbl:'Circuit - 5 rounds', ex:[makeEx('Deadlift','5x6 heavy','Deadlift'),makeEx('Hip Thrust','5x12','Hip Thrust'),makeEx('Push-up','5x15',null),makeEx('Lat Pulldown','5x10','Lat Pulldown'),makeEx('Plank','5x45 sec',null)]}
+  ]},
+  {title:'Hamstring and Posterior Chain', focus:'Hamstrings + Glutes', sections:[
+    {lbl:'Main - 4 sets', ex:[makeEx('Good Morning','4x12','Good Morning'),makeEx('Nordic Curl','4x6','Nordic Curl'),makeEx('Romanian Deadlift','4x12','Romanian Deadlift'),makeEx('Cable Kickback','4x15 each','Cable Kickback')]},
+    {lbl:'Core', ex:[makeEx('Dragon Flag','3x6','Dragon Flag'),makeEx('Side plank','3x40 sec each',null)]}
+  ]},
+  {title:'Active Recovery and Core', focus:'Core + Mobility', sections:[
+    {lbl:'Core - 4 rounds', ex:[makeEx('Hanging Leg Raise','4x15','Hanging Leg Raise'),makeEx('Ab Wheel','4x10','Ab Wheel'),makeEx('Cable crunch','4x15',null),makeEx('Bicycle crunch','4x20',null)]},
+    {lbl:'Mobility', ex:[makeEx('Hip flexor stretch','60 sec each',null),makeEx('Foam roll glutes and hamstrings','10 min',null)]}
+  ]}
+];
+
+var GYM_B = [
+  {title:'Heavy Glute Day - Max Load', focus:'Glutes Progressive Overload', sections:[
+    {lbl:'Main - 5 sets', ex:[makeEx('Hip Thrust','5x8 heavy add weight weekly','Hip Thrust'),makeEx('Bulgarian Split Squat','4x10 each heavier','Bulgarian Split Squat'),makeEx('Sumo Deadlift','4x8 heavy','Sumo Deadlift'),makeEx('Cable Kickback','4x20 each','Cable Kickback')]},
+    {lbl:'Core', ex:[makeEx('Dragon Flag','4x8','Dragon Flag'),makeEx('Weighted plank','4x45 sec',null)]}
+  ]},
+  {title:'Upper Push and Core Power', focus:'Shoulders + Chest + Abs', sections:[
+    {lbl:'Push - 5 sets', ex:[makeEx('Overhead Press','5x6 heavy','Overhead Press'),makeEx('Bench Press','4x8','Bench Press'),makeEx('Lateral raise','4x15',null),makeEx('Tricep overhead extension','4x12',null)]},
+    {lbl:'Core', ex:[makeEx('Hanging Leg Raise','5x15','Hanging Leg Raise'),makeEx('Ab Wheel','4x12','Ab Wheel'),makeEx('Plank','4x60 sec',null)]}
+  ]},
+  {title:'Lower Body Power Deadlift Focus', focus:'Hamstrings + Glutes + Quads', sections:[
+    {lbl:'Main', ex:[makeEx('Deadlift','5x5 max effort','Deadlift'),makeEx('Romanian Deadlift','4x10','Romanian Deadlift'),makeEx('Barbell Back Squat','4x8','Barbell Back Squat'),makeEx('Nordic Curl','4x6','Nordic Curl')]},
+    {lbl:'Accessory', ex:[makeEx('Leg press','3x20',null),makeEx('Cable abductor','3x20 each',null),makeEx('Calf raise','5x20',null)]}
+  ]},
+  {title:'HIIT Sprint and Glute Superset', focus:'Fat Burn + Glute Pump', sections:[
+    {lbl:'HIIT - 25 min', ex:[makeEx('Treadmill sprint','30 sec at 8-9 mph then 90 sec walk x10',null),makeEx('Jump lunge','30 sec on/off x8',null)]},
+    {lbl:'Glute Superset x5', ex:[makeEx('Hip Thrust + Donkey Kick','20 reps each no rest between','Hip Thrust'),makeEx('Cable Kickback + Fire Hydrant','15 each no rest','Cable Kickback')]}
+  ]},
+  {title:'Full Body Strength Endurance', focus:'Total Body Sculpt', sections:[
+    {lbl:'AMRAP 25 min', ex:[makeEx('10 deadlifts + 12 hip thrusts + 10 push-ups + 12 rows + 15 ab wheel','As many rounds as possible','Deadlift')]},
+    {lbl:'Core Burnout', ex:[makeEx('Dragon Flag','4x8','Dragon Flag'),makeEx('Bicycle crunch','4x30',null),makeEx('Side plank','4x45 sec each',null)]}
+  ]},
+  {title:'Pull and Posterior Chain', focus:'Back + Hamstrings + Glutes', sections:[
+    {lbl:'Pull - 5 sets', ex:[makeEx('Pull-up','5x8 weighted if possible','Pull-up'),makeEx('Barbell Row','5x8 heavy','Barbell Row'),makeEx('Good Morning','4x12','Good Morning'),makeEx('Face pull','4x15',null)]},
+    {lbl:'Core', ex:[makeEx('Hanging Leg Raise','5x15','Hanging Leg Raise'),makeEx('Weighted crunch','4x20',null)]}
+  ]},
+  {title:'Mobility and Core Deep Dive', focus:'Flexibility + Abs', sections:[
+    {lbl:'Core - 5 rounds', ex:[makeEx('Ab Wheel','5x12','Ab Wheel'),makeEx('Dragon Flag','4x8','Dragon Flag'),makeEx('Hanging Leg Raise','5x15','Hanging Leg Raise'),makeEx('Cable crunch','4x20',null)]},
+    {lbl:'Stretch', ex:[makeEx('Full body yoga or stretch','20 min',null),makeEx('Foam roll glutes hamstrings upper back','10 min',null)]}
+  ]}
+];
+
+var OUT_A = ['45-min brisk walk - hilly terrain preferred','45-min run/walk intervals 2 min walk 1 min jog','45-min outdoor jog Zone 2 pace','45-min outdoor stairs or hill repeats','45-min bike ride outdoors moderate resistance','45-min outdoor yoga or stretch in fresh air','45-min power walk listen to your book'];
+var OUT_B = ['60-min outdoor hike with elevation','60-min outdoor run/walk push the run portions','45-min outdoor HIIT park sprints and bodyweight','60-min bike ride high resistance','45-min outdoor stairs or bleacher repeats','60-min power walk at fast pace','45-min outdoor cardio circuit jump rope and sprints'];
+
+var P2A = [];
+for (var i = 0; i < 30; i++) {
+  var g = GYM_A[i % GYM_A.length];
+  P2A.push({day: 16+i, title: g.title, focus: g.focus, outdoor: true, outdoorDesc: OUT_A[i % OUT_A.length], sections: g.sections});
+}
+var P2B = [];
+for (var i = 0; i < 45; i++) {
+  var g = GYM_B[i % GYM_B.length];
+  P2B.push({day: 46+i, title: g.title, focus: g.focus, outdoor: true, outdoorDesc: OUT_B[i % OUT_B.length], sections: g.sections});
+}
+var ALL_DAYS = P1.concat(P2A).concat(P2B);
+
+// SHOPPING DATA
+var SHOP_WEEKS = [
+  {cat:'Proteins', items:[['Chicken breast boneless','2 lbs'],['Salmon fillets','1 lb'],['Lean ground beef 93 pct','1 lb'],['Canned tuna albacore','3 cans'],['Greek yogurt full-fat','32 oz'],['Cottage cheese low-fat','16 oz'],['Eggs large','18 count'],['Whey protein powder','1 tub'],['Casein protein powder','1 tub'],['String cheese','1 pack']]},
+  {cat:'Produce', items:[['Bananas','6'],['Mixed berries fresh or frozen','2 lbs'],['Broccoli','2 heads'],['Bell peppers mixed','4'],['Asparagus','1 bunch'],['Sweet potatoes','4 medium'],['Baby spinach','5 oz bag'],['Mushrooms','8 oz'],['Cherry tomatoes','1 pint'],['Avocados','3'],['Mixed greens','5 oz bag'],['Cucumber','2'],['Apples','4'],['Zucchini','2']]},
+  {cat:'Grains and Carbs', items:[['Rolled oats','1 large canister'],['Quinoa','1 lb bag'],['Brown rice','2 lb bag'],['Whole grain bread','1 loaf'],['Whole wheat wraps','1 pack'],['Rice cakes','1 bag']]},
+  {cat:'Fats and Pantry', items:[['Almond butter natural','1 jar'],['Peanut butter natural','1 jar'],['Olive oil extra-virgin','1 bottle'],['Raw almonds','1 bag'],['Walnuts','1 bag'],['Chia seeds','1 bag'],['Raw honey','1 bottle'],['Unsweetened almond milk','2 cartons'],['Canned chickpeas','1 can'],['Protein bars Quest or RX','4 bars']]},
+  {cat:'Seasonings', items:[['Low-sodium soy sauce','1 bottle'],['Apple cider vinegar','1 bottle'],['Balsamic vinegar','1 bottle'],['Fresh lemons','4'],['Garlic fresh or powder','1 head'],['Everything bagel seasoning','1 jar'],['Cinnamon','1 jar'],['Red pepper flakes','1 jar']]}
+];
+var SHOP_WEEKS2 = [
+  {cat:'Proteins', items:[['Chicken breast','2 lbs'],['Skinless chicken thighs','1.5 lbs'],['Large shrimp','1 lb'],['Cod fillets','1.5 lbs'],['Deli turkey breast','0.5 lb'],['Greek yogurt','32 oz'],['Eggs large','12 count'],['Smoked salmon','4 oz'],['Frozen edamame shelled','12 oz']]},
+  {cat:'Produce', items:[['Bananas','5'],['Mixed berries','1.5 lbs'],['Curly kale','1 bunch'],['Brussels sprouts','1 lb'],['Eggplant','1 medium'],['Zucchini','3'],['Carrots','1 lb bag'],['Sweet potatoes','3'],['Avocados','2'],['Mixed greens','5 oz'],['Cucumber','2'],['Red onion','1']]},
+  {cat:'Grains and Carbs', items:[['Wild rice','1 bag'],['Whole grain English muffins','1 pack'],['Green lentils','1 bag'],['Sourdough bread','1 loaf'],['Corn tortillas','1 pack']]},
+  {cat:'Fats and Pantry', items:[['Tahini','1 jar'],['Light cream cheese','1 block'],['Parmesan cheese','1 bag'],['Feta cheese','4 oz'],['Black beans canned','1 can'],['Low-sugar marinara sauce','1 jar'],['Granola','1 bag'],['Medjool dates','1 pack'],['Coconut flakes unsweetened','1 bag']]},
+  {cat:'Seasonings', items:[['Fresh ginger','1 knob'],['Fresh rosemary','1 bunch'],['Fresh cilantro','1 bunch'],['Low-sodium salsa','1 jar'],['Dijon mustard','1 jar'],['Light Caesar dressing','1 bottle']]}
+];
+var SHOP_WEEKS3 = [
+  {cat:'Proteins', items:[['Chicken breast','2.5 lbs'],['Salmon','1.5 lbs'],['Lean ground turkey','1 lb'],['Grass-fed sirloin steak','1 lb'],['Greek yogurt','32 oz'],['Eggs large','18 count'],['Protein powder replenish','as needed']]},
+  {cat:'Produce', items:[['Spinach','10 oz bag'],['Broccoli','2 heads'],['Asparagus','2 bunches'],['Bell peppers','4'],['Sweet potatoes','4'],['Avocados','4'],['Frozen berries','2 lbs'],['Bananas','6'],['Snap peas','1 bag'],['Lemons','4']]},
+  {cat:'Grains and Carbs', items:[['Oats replenish','as needed'],['Quinoa replenish','as needed'],['Protein pancake mix','1 box'],['Brown rice replenish','as needed'],['Rice cakes','1 bag']]},
+  {cat:'Fats and Pantry', items:[['Almond butter replenish','as needed'],['Olive oil replenish','as needed'],['Almonds','1 bag'],['Protein bars','1 box'],['Chia seeds replenish','as needed'],['Honey replenish','as needed'],['Almond milk','2 cartons']]},
+  {cat:'Seasonings', items:[['Sea salt and black pepper','as needed'],['Garlic powder replenish','as needed'],['Cumin','1 jar'],['Paprika','1 jar'],['Low-sodium chicken broth','1 carton']]}
+];
+var SHOP_DATA = [SHOP_WEEKS, SHOP_WEEKS2, SHOP_WEEKS3];
+
+// BUILD 13 WEEKS
+var ALL_SHOP = [];
+for (var w = 0; w < 13; w++) {
+  var sd = w*7+1, ed = Math.min(sd+6, 90);
+  ALL_SHOP.push({wk:'Week '+(w+1), days:'Days '+sd+'-'+ed, cats: SHOP_DATA[w%3]});
+}
+
+// ── RENDER PHASE LIST ──────────────────────────────────────────
+function switchPhase(idx) {
+  curPhaseIdx = idx;
+  var tabs = document.querySelectorAll('.ptab');
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle('active', i === idx);
+  }
+  renderList(idx);
+}
+
+function renderList(idx) {
+  var content = document.getElementById('phaseContent');
+  if (!content) return;
+  content.innerHTML = '';
+  var days, weeks;
+  if (idx === 0) {
+    days = P1;
+    weeks = [{l:'Week 1 - Days 1-7',s:0,e:7},{l:'Week 2 - Days 8-15',s:7,e:15}];
+  } else if (idx === 1) {
+    days = P2A;
+    weeks = [{l:'Days 16-22',s:0,e:7},{l:'Days 23-29',s:7,e:14},{l:'Days 30-36',s:14,e:21},{l:'Days 37-45',s:21,e:30}];
+  } else {
+    days = P2B;
+    weeks = [{l:'Days 46-52',s:0,e:7},{l:'Days 53-59',s:7,e:14},{l:'Days 60-66',s:14,e:21},{l:'Days 67-73',s:21,e:28},{l:'Days 74-82',s:28,e:37},{l:'Days 83-90 FINAL PUSH',s:37,e:45}];
+  }
+  for (var wi = 0; wi < weeks.length; wi++) {
+    var wk = weeks[wi];
+    var wh = document.createElement('div');
+    wh.className = 'wkhdr';
+    wh.textContent = wk.l;
+    content.appendChild(wh);
+    var slice = days.slice(wk.s, wk.e);
+    for (var di = 0; di < slice.length; di++) {
+      (function(d) {
+        var gi = 0;
+        for (var k = 0; k < ALL_DAYS.length; k++) { if (ALL_DAYS[k].day === d.day) { gi = k; break; } }
+        var isDone = !!done[d.day];
+        var row = document.createElement('div');
+        row.className = 'drow' + (isDone ? ' done' : '');
+        row.innerHTML = '<div class="dchk"><div class="dcirc">' + (isDone ? '&#10003;' : '') + '</div></div>' +
+          '<div class="dinf">' +
+          '<div class="dnum">DAY ' + d.day + '</div>' +
+          '<div class="dtit">' + d.title + '</div>' +
+          '<div class="dsub">' + (d.focus || '') + (d.outdoor ? ' - Outdoor' : '') + '</div>' +
+          '</div>' +
+          '<div class="darr">&#8250;</div>';
+        row.onclick = function() { openDay(gi); };
+        content.appendChild(row);
+      })(slice[di]);
+    }
+  }
 }
 
 // ── OPEN DAY ──────────────────────────────────────────────────
-function openDay(gi){
-  currentDayIndex=gi;
-  const d=ALL_DAYS[gi];
-  document.getElementById('detailDayNum').textContent='D'+d.day;
-  document.getElementById('detailTitle').textContent=d.title;
-  document.getElementById('detailPhase').textContent=d.phase;
-  // Reset tabs
-  document.querySelectorAll('.stab').forEach((t,i)=>t.classList.toggle('active',i===0));
-  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===0));
-  renderWorkoutPanel(d);
-  renderMealPanel(d.day);
-  renderChecklistPanel(d);
-  renderPhotoPanel(d);
-  showScreen('detail',null);
+function openDay(gi) {
+  curDayIdx = gi;
+  var d = ALL_DAYS[gi];
+  document.getElementById('ddnum').textContent = 'D' + d.day;
+  document.getElementById('ddtit').textContent = d.title;
+  document.getElementById('ddph').textContent = d.day < 16 ? 'RAMP PHASE' : (d.day < 46 ? '75 HARD 2A' : '75 HARD 2B');
+  var stabs = document.querySelectorAll('.stab');
+  var tpanels = document.querySelectorAll('.tpanel');
+  for (var i = 0; i < stabs.length; i++) stabs[i].classList.toggle('active', i === 0);
+  for (var i = 0; i < tpanels.length; i++) tpanels[i].classList.toggle('active', i === 0);
+  buildWorkoutPanel(d);
+  buildMealPanel(d.day);
+  buildCheckinPanel(d);
+  buildPhotoPanel(d);
+  showScreen('detail', null);
 }
 
-function switchTab(name,btn){
-  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+function openTab(name, btn) {
+  var stabs = document.querySelectorAll('.stab');
+  var tpanels = document.querySelectorAll('.tpanel');
+  for (var i = 0; i < stabs.length; i++) stabs[i].classList.remove('active');
+  for (var i = 0; i < tpanels.length; i++) tpanels[i].classList.remove('active');
   btn.classList.add('active');
-  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('tp-' + name).classList.add('active');
 }
 
-function renderWorkoutPanel(d){
-  const panel=document.getElementById('panel-workout');
-  const done=!!completedDays[d.day];
-  let html='';
-  if(done) html+=`<div class="done-banner">✅ Day ${d.day} complete! You're crushing it.</div>`;
-  if(d.day>=16&&d.outdoorDesc){
-    html+=`<div class="section-block"><div class="section-label">🌿 Workout 2 — Outdoors</div>
-      <div class="exercise-item"><div class="ex-row"><span class="ex-name">${d.outdoorDesc}</span></div></div></div>`;
+// ── WORKOUT PANEL ─────────────────────────────────────────────
+function buildWorkoutPanel(d) {
+  var p = document.getElementById('tp-workout');
+  var isDone = !!done[d.day];
+  var html = '';
+  if (isDone) html += '<div class="donebanner">Day ' + d.day + ' complete! You are crushing it.</div>';
+  if (d.day >= 16 && d.outdoorDesc) {
+    html += '<div class="secblk"><div class="seclbl">Workout 2 - Outdoors</div><div class="exitem"><div class="exrow"><span class="exn">' + d.outdoorDesc + '</span></div></div></div>';
   }
-  if(d.day<16){
-    html+=`<div class="tip-box"><div class="tip-title">Phase 1 Guidelines</div>
-      <div class="tip-item">1 workout today, 45–60 minutes</div>
-      <div class="tip-item">Focus on form, not load — learn the movements</div>
-      <div class="tip-item">Drink 80+ oz water today</div>
-      <div class="tip-item">Follow your meal plan — 1,800–2,000 cal, 130g+ protein</div></div>`;
+  if (d.day < 16) {
+    html += '<div class="tipbox"><div class="tiptit">Phase 1 Guidelines</div>' +
+      '<div class="tipitem">1 workout today 45-60 minutes</div>' +
+      '<div class="tipitem">Focus on form not load - learn the movements</div>' +
+      '<div class="tipitem">Drink 80+ oz water today</div>' +
+      '<div class="tipitem">Follow meal plan 1800-2000 cal 130g+ protein</div></div>';
   }
-  d.sections.forEach(s=>{
-    html+=`<div class="section-block"><div class="section-label">${s.label}</div>`;
-    (s.ex||[]).forEach(e=>{
-      const vid=e.v&&VIDEOS[e.v];
-      html+=`<div class="exercise-item"><div class="ex-row">
-        <span class="ex-name">${e.n}</span><span class="ex-detail">${e.d}</span></div>
-        ${vid?`<a href="${vid}" target="_blank" class="ex-video">▶ Watch Tutorial</a>`:''}</div>`;
-    });
-    html+=`</div>`;
-  });
-  html+=`<button class="complete-btn${done?' done-state':''}" id="completeBtn" onclick="toggleComplete(${d.day})">${done?'✓ DAY COMPLETE':'✓ MARK DAY COMPLETE'}</button>`;
-  html+=`<div style="height:40px"></div>`;
-  panel.innerHTML=html;
-}
-
-function renderMealPanel(dayNum){
-  const panel=document.getElementById('panel-meal');
-  const m=MEALS[(dayNum-1)%MEALS.length];
-  let html=`<div class="macro-total">
-    <span class="macro-total-label">Daily Totals</span>
-    <div class="macro-total-vals">
-      <div class="macro"><div class="macro-val">${m.total.cal}</div><div class="macro-lbl">cal</div></div>
-      <div class="macro"><div class="macro-val">${m.total.p}g</div><div class="macro-lbl">protein</div></div>
-      <div class="macro"><div class="macro-val">${m.total.c}g</div><div class="macro-lbl">carbs</div></div>
-      <div class="macro"><div class="macro-val">${m.total.f}g</div><div class="macro-lbl">fat</div></div>
-    </div></div>`;
-  m.meals.forEach(meal=>{
-    html+=`<div class="meal-card">
-      <div class="meal-time">${meal.time}</div>
-      <div class="meal-name">${meal.name}</div>
-      <div class="meal-desc">${meal.desc}</div>
-      <div class="meal-macros">
-        <div class="macro"><div class="macro-val">${meal.cal}</div><div class="macro-lbl">cal</div></div>
-        <div class="macro"><div class="macro-val">${meal.p}g</div><div class="macro-lbl">protein</div></div>
-        <div class="macro"><div class="macro-val">${meal.c}g</div><div class="macro-lbl">carbs</div></div>
-        <div class="macro"><div class="macro-val">${meal.f}g</div><div class="macro-lbl">fat</div></div>
-      </div></div>`;
-  });
-  html+=`<div class="tip-box" style="margin-top:12px"><div class="tip-title">Nutrition Notes</div>
-    <div class="tip-item">Eat protein within 30 min post-workout</div>
-    <div class="tip-item">Drink 1 gallon water throughout the day</div>
-    <div class="tip-item">Prep meals ahead — it makes the plan easy to follow</div>
-    <div class="tip-item">No alcohol, no processed sugar on 75 Hard days</div></div>`;
-  html+=`<div style="height:40px"></div>`;
-  panel.innerHTML=html;
-}
-
-function renderChecklistPanel(d){
-  const panel=document.getElementById('panel-checklist');
-  const isHard=d.day>=16;
-  const done=!!completedDays[d.day];
-  let html='';
-  if(done) html+=`<div class="done-banner">✅ Day ${d.day} complete!</div>`;
-  if(isHard){
-    const key='day_'+d.day,checks=hardChecks[key]||{};
-    html+=`<div class="hard-checklist"><div class="hcl-title">75 Hard Daily Checklist</div>`;
-    HARD_ITEMS.forEach(item=>{
-      const chk=!!checks[item.key];
-      html+=`<div class="hcl-item${chk?' checked':''}" onclick="toggleCheck(${d.day},'${item.key}',this)">
-        <div class="hcl-box">${chk?'✓':''}</div><div class="hcl-text">${item.label}</div></div>`;
-    });
-    html+=`</div>`;
-  } else {
-    html+=`<div class="hard-checklist"><div class="hcl-title">Phase 1 Daily Check-In</div>
-      <div class="hcl-item" onclick="toggleCheck(${d.day},'w1',this)"><div class="hcl-box"></div><div class="hcl-text">Workout complete (45+ min)</div></div>
-      <div class="hcl-item" onclick="toggleCheck(${d.day},'water',this)"><div class="hcl-box"></div><div class="hcl-text">80+ oz water consumed</div></div>
-      <div class="hcl-item" onclick="toggleCheck(${d.day},'diet',this)"><div class="hcl-box"></div><div class="hcl-text">Meal plan followed</div></div>
-      <div class="hcl-item" onclick="toggleCheck(${d.day},'photo',this)"><div class="hcl-box"></div><div class="hcl-text">Progress photo taken</div></div>
-      </div>`;
+  for (var si = 0; si < d.sections.length; si++) {
+    var sec = d.sections[si];
+    html += '<div class="secblk"><div class="seclbl">' + sec.lbl + '</div>';
+    for (var ei = 0; ei < sec.ex.length; ei++) {
+      var ex = sec.ex[ei];
+      html += '<div class="exitem"><div class="exrow"><span class="exn">' + ex.n + '</span><span class="exd">' + ex.d + '</span></div>';
+      if (ex.v) html += '<a href="' + ex.v + '" target="_blank" class="vidlink">&#9654; Watch Tutorial</a>';
+      html += '</div>';
+    }
+    html += '</div>';
   }
-  html+=`<button class="complete-btn${done?' done-state':''}" id="completeBtnCL" onclick="toggleComplete(${d.day})">${done?'✓ DAY COMPLETE':'✓ MARK DAY COMPLETE'}</button>`;
-  html+=`<div style="height:40px"></div>`;
-  panel.innerHTML=html;
-  // Restore checked state
-  const key='day_'+d.day,checks=hardChecks[key]||{};
-  panel.querySelectorAll('.hcl-item').forEach(el=>{
-    const k=el.getAttribute('onclick').match(/'([^']+)'/g);
-    if(k&&k[1]){const key2=k[1].replace(/'/g,'');if(checks[key2]){el.classList.add('checked');el.querySelector('.hcl-box').textContent='✓';el.querySelector('.hcl-box').style.color='#fff';}}
-  });
+  html += '<button class="cbtn' + (isDone ? ' done' : '') + '" id="cbtn1" onclick="toggleDone(' + d.day + ')">' + (isDone ? 'DAY COMPLETE' : 'MARK DAY COMPLETE') + '</button>';
+  html += '<div style="height:40px"></div>';
+  p.innerHTML = html;
 }
 
-function toggleCheck(day,itemKey,el){
-  const k='day_'+day;
-  if(!hardChecks[k]) hardChecks[k]={};
-  hardChecks[k][itemKey]=!hardChecks[k][itemKey];
-  save();
-  el.classList.toggle('checked',hardChecks[k][itemKey]);
-  const box=el.querySelector('.hcl-box');
-  box.textContent=hardChecks[k][itemKey]?'✓':'';
-  box.style.color=hardChecks[k][itemKey]?'#fff':'transparent';
-  const allItems=day>=16?HARD_ITEMS:[{key:'w1'},{key:'water'},{key:'diet'},{key:'photo'}];
-  if(allItems.every(i=>hardChecks[k][i.key])&&!completedDays[day]){
-    completedDays[day]=true;save();
-    ['completeBtn','completeBtnCL'].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent='✓ DAY COMPLETE';b.classList.add('done-state');}});
-    showToast('✨ All tasks done — Day '+day+' complete!');
-    updateProgress();
+// ── MEAL PANEL ────────────────────────────────────────────────
+function buildMealPanel(dayNum) {
+  var p = document.getElementById('tp-meal');
+  var m = MEALS[(dayNum - 1) % MEALS.length];
+  var html = '<div class="mtotal"><span class="mtotlbl">Daily Totals</span><div class="mtotvals">';
+  html += '<div class="mac"><div class="macv">' + m.total.cal + '</div><div class="macl">cal</div></div>';
+  html += '<div class="mac"><div class="macv">' + m.total.p + 'g</div><div class="macl">protein</div></div>';
+  html += '<div class="mac"><div class="macv">' + m.total.c + 'g</div><div class="macl">carbs</div></div>';
+  html += '<div class="mac"><div class="macv">' + m.total.f + 'g</div><div class="macl">fat</div></div>';
+  html += '</div></div>';
+  for (var i = 0; i < m.items.length; i++) {
+    var meal = m.items[i];
+    html += '<div class="mcard"><div class="mtime">' + meal.t + '</div><div class="mname">' + meal.n + '</div><div class="mdesc">' + meal.d + '</div>';
+    html += '<div class="mmacs"><div class="mac"><div class="macv">' + meal.cal + '</div><div class="macl">cal</div></div>';
+    html += '<div class="mac"><div class="macv">' + meal.p + 'g</div><div class="macl">protein</div></div>';
+    html += '<div class="mac"><div class="macv">' + meal.c + 'g</div><div class="macl">carbs</div></div>';
+    html += '<div class="mac"><div class="macv">' + meal.f + 'g</div><div class="macl">fat</div></div></div></div>';
   }
+  html += '<div class="tipbox" style="margin-top:12px"><div class="tiptit">Nutrition Notes</div>';
+  html += '<div class="tipitem">Eat protein within 30 min post-workout</div>';
+  html += '<div class="tipitem">Drink 1 gallon water throughout the day</div>';
+  html += '<div class="tipitem">Prep meals ahead to stay on plan</div>';
+  html += '<div class="tipitem">No alcohol no processed sugar on 75 Hard days</div></div>';
+  html += '<div style="height:40px"></div>';
+  p.innerHTML = html;
 }
 
-function toggleComplete(day){
-  completedDays[day]=!completedDays[day];save();
-  const done=completedDays[day];
-  ['completeBtn','completeBtnCL'].forEach(id=>{const b=document.getElementById(id);if(b){b.textContent=done?'✓ DAY COMPLETE':'✓ MARK DAY COMPLETE';b.classList.toggle('done-state',done);}});
-  if(done) showToast('✨ Day '+day+' marked complete!');
-  updateProgress();
+// ── CHECKIN PANEL ─────────────────────────────────────────────
+function buildCheckinPanel(d) {
+  var p = document.getElementById('tp-checkin');
+  var isDone = !!done[d.day];
+  var isHard = d.day >= 16;
+  var items = isHard ? HARD_ITEMS : P1_ITEMS;
+  var ck = checks['d' + d.day] || {};
+  var html = '';
+  if (isDone) html += '<div class="donebanner">Day ' + d.day + ' complete!</div>';
+  html += '<div class="hcl"><div class="hcltit">' + (isHard ? '75 Hard Daily Checklist' : 'Phase 1 Daily Check-In') + '</div>';
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var isChk = !!ck[item.k];
+    html += '<div class="hclitem' + (isChk ? ' chk' : '') + '" onclick="toggleCheck(' + d.day + ',\'' + item.k + '\',this)">';
+    html += '<div class="hclbox">' + (isChk ? '&#10003;' : '') + '</div>';
+    html += '<div class="hcltxt">' + item.lbl + '</div></div>';
+  }
+  html += '</div>';
+  html += '<button class="cbtn' + (isDone ? ' done' : '') + '" id="cbtn2" onclick="toggleDone(' + d.day + ')">' + (isDone ? 'DAY COMPLETE' : 'MARK DAY COMPLETE') + '</button>';
+  html += '<div style="height:40px"></div>';
+  p.innerHTML = html;
 }
 
-// ── PROGRESS ──────────────────────────────────────────────────
-function updateProgress(){
-  const done=Object.keys(completedDays).filter(k=>completedDays[k]).length;
-  const pct=Math.round((done/90)*100);
-  document.getElementById('doneCount').textContent=done+'/90';
-  document.getElementById('ringPct').textContent=pct+'%';
-  document.getElementById('ringCircle').style.strokeDashoffset=213.6-(pct/100)*213.6;
-  let streak=0;for(let i=1;i<=90;i++){if(completedDays[i])streak++;else break;}
-  document.getElementById('streakCount').textContent=streak+'🔥';
-  document.getElementById('currentPhase').textContent=done<15?'RAMP':done<45?'75H-2A':'75H-2B';
-  renderStats(done,streak,pct);
-}
-
-function renderStats(done,streak,pct){
-  const sc=document.getElementById('statsContent');if(!sc)return;
-  let html=`<div class="stat-card"><div class="stat-card-label">Days Completed</div><div class="stat-card-val">${done}</div><div class="stat-card-sub">${90-done} days remaining</div></div>`;
-  html+=`<div class="stat-card"><div class="stat-card-label">Streak</div><div class="stat-card-val">${streak} 🔥</div><div class="stat-card-sub">Consecutive days from Day 1</div></div>`;
-  html+=`<div class="stat-card"><div class="stat-card-label">Completion</div><div class="stat-card-val">${pct}%</div><div style="background:#2a2a2a;border-radius:4px;height:6px;margin-top:12px;overflow:hidden"><div style="background:#c9836a;height:6px;width:${pct}%;border-radius:4px"></div></div></div>`;
-  html+=`<div class="stat-card"><div class="stat-card-label">Goal Focus</div><div class="stat-card-val" style="font-size:22px;line-height:1.4">Glutes<br>Abs<br>Definition</div><div class="stat-card-sub" style="margin-top:8px">Target: 130g+ protein/day · 1,800–2,000 cal/day</div></div>`;
-  html+=`<div class="stat-card"><div class="stat-card-label">90-Day Grid</div><div class="cal-grid" id="calGrid"></div></div>`;
-  sc.innerHTML=html;
-  const grid=document.getElementById('calGrid');
-  for(let i=1;i<=90;i++){const c=document.createElement('div');c.className='cal-cell'+(completedDays[i]?' done':'');c.textContent=i;grid.appendChild(c);}
-}
-
-// ── NAV ───────────────────────────────────────────────────────
-function showScreen(id,btn){
-  if(id!=='detail') prevScreen=id;
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  if(btn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
-  if(id==='stats') updateProgress();
-  if(id==='shopping') renderShopping(currentShopWeek);
-}
-function goBack(){showScreen(prevScreen,null);renderPhase(currentPhaseTab);updateProgress();}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
-
-// ── PHOTO CHECK-IN ────────────────────────────────────────────
-let photoStore={};
-try{photoStore=JSON.parse(localStorage.getItem('s90_photos')||'{}');}catch(e){}
-function savePhotos(){try{localStorage.setItem('s90_photos',JSON.stringify(photoStore));}catch(e){}}
-
-function renderPhotoPanel(d){
-  const panel=document.getElementById('panel-photo');
-  const dayKey='day_'+d.day;
-  const existing=photoStore[dayKey];
-  const allPhotoDays=Object.keys(photoStore).filter(k=>photoStore[k]&&photoStore[k].src).sort((a,b)=>parseInt(a.split('_')[1])-parseInt(b.split('_')[1]));
-  const firstPhoto=allPhotoDays.length>0?photoStore[allPhotoDays[0]]:null;
-
-  let html=`<div class="photo-date-label">Day ${d.day} Progress Photo</div>`;
-
-  if(existing&&existing.src){
-    html+=`<img src="${existing.src}" class="photo-preview" alt="Day ${d.day}"/>`;
-    html+=`<textarea class="photo-note-input" id="photoNote" rows="3" placeholder="How are you feeling? Notes on progress...">${existing.note||''}</textarea>`;
+// ── PHOTO PANEL ───────────────────────────────────────────────
+function buildPhotoPanel(d) {
+  var p = document.getElementById('tp-photo');
+  var dk = 'day' + d.day;
+  var ex = photos[dk];
+  var allKeys = Object.keys(photos).filter(function(k) { return photos[k] && photos[k].src; });
+  allKeys.sort(function(a,b) { return parseInt(a.replace('day','')) - parseInt(b.replace('day','')); });
+  var html = '<div class="photodlbl">Day ' + d.day + ' Progress Photo</div>';
+  if (ex && ex.src) {
+    html += '<img src="' + ex.src + '" class="photoprev" alt="Day ' + d.day + '"/>';
+    html += '<textarea class="noteinput" id="pnote" rows="3" placeholder="How are you feeling? Notes on progress...">' + (ex.note || '') + '</textarea>';
 
 ```
-html+=`<button class="photo-save-btn" onclick="savePhotoNote(${d.day})">💾 Save Note</button>`;
-html+=`<button class="photo-save-btn" style="color:#555;border-color:#2a2a2a" onclick="deletePhoto(${d.day})">🗑 Remove Photo</button>`;
+html += '<button class="photobtn" onclick="saveNote(' + d.day + ')">Save Note</button>';
+html += '<button class="photobtn" style="color:#444;border-color:#2a2a2a" onclick="deletePhoto(' + d.day + ')">Remove Photo</button>';
 ```
 
 } else {
-html+=`<div class="photo-upload-area" onclick="document.getElementById('photoInput_${d.day}').click()"> <div class="photo-upload-icon">📸</div> <div class="photo-upload-label">Upload Today's Photo</div> <div class="photo-upload-sub">Track your transformation</div> </div> <input type="file" id="photoInput_${d.day}" accept="image/*" capture="user" style="display:none" onchange="handlePhotoUpload(${d.day},this)"> <textarea class="photo-note-input" id="photoNote" rows="3" placeholder="How are you feeling today? Note any changes..."></textarea> <button class="photo-save-btn" onclick="savePhotoNote(${d.day})">💾 Save Note</button>`;
+html += ‘<div class="photoarea" onclick="document.getElementById(\'pfinput' + d.day + '\').click()">’;
+html += ‘<div class="photoicon">📷</div><div class="photolbl">Upload Today's Photo</div><div class="photosub">Track your transformation</div></div>’;
+html += ‘<input type="file" id="pfinput' + d.day + '" accept="image/*" capture="user" style="display:none" onchange="handleUpload(' + d.day + ',this)">’;
+html += ‘<textarea class="noteinput" id="pnote" rows="3" placeholder="How are you feeling today?"></textarea>’;
+html += ‘<button class="photobtn" onclick="saveNote(' + d.day + ')">Save Note</button>’;
 }
-
-// Before/After comparison
-if(allPhotoDays.length>=2){
-const lastDay=allPhotoDays[allPhotoDays.length-1];
-const lastPhoto=photoStore[lastDay];
-html+=`<div class="photo-date-label" style="margin-top:24px">Progress Comparison</div> <div class="progress-compare"> <div class="compare-slot">${firstPhoto&&firstPhoto.src?`<img src="${firstPhoto.src}" alt="Start"/>`:'<div class="compare-slot-label">Day 1</div>'} <div class="compare-slot-label">Day ${allPhotoDays[0].split('_')[1]} — Start</div></div> <div class="compare-slot">${lastPhoto&&lastPhoto.src?`<img src="${lastPhoto.src}" alt="Latest"/>`:''} <div class="compare-slot-label">Day ${lastDay.split('_')[1]} — Latest</div></div> </div>`;
+if (allKeys.length >= 2) {
+var first = photos[allKeys[0]], last = photos[allKeys[allKeys.length-1]];
+html += ‘<div class="photodlbl" style="margin-top:20px">Before vs Latest</div>’;
+html += ‘<div class="compare">’;
+html += ‘<div class="cslot">’ + (first.src ? ‘<img src="' + first.src + '" alt="start"/>’ : ‘’) + ‘<div class="cslotlbl">Day ’ + allKeys[0].replace(‘day’,’’) + ’ Start</div></div>’;
+html += ‘<div class="cslot">’ + (last.src ? ‘<img src="' + last.src + '" alt="latest"/>’ : ‘’) + ‘<div class="cslotlbl">Day ’ + allKeys[allKeys.length-1].replace(‘day’,’’) + ’ Latest</div></div>’;
+html += ‘</div>’;
 }
-
-// Gallery
-if(allPhotoDays.length>0){
-html+=`<div class="photo-date-label" style="margin-top:24px">All Progress Photos (${allPhotoDays.length})</div> <div class="photo-gallery-grid">`;
-allPhotoDays.forEach(k=>{
-const p=photoStore[k];
-if(p&&p.src) html+=`<div class="gallery-item"><img src="${p.src}" alt="${k}"/><div class="gallery-item-label">Day ${k.split('_')[1]}</div></div>`;
-});
-html+=`</div>`;
+if (allKeys.length > 0) {
+html += ‘<div class="photodlbl" style="margin-top:16px">All Photos (’ + allKeys.length + ‘)</div><div class="gallery">’;
+for (var i = 0; i < allKeys.length; i++) {
+var ph = photos[allKeys[i]];
+if (ph && ph.src) html += ‘<div class="gallitem"><img src="' + ph.src + '" alt="' + allKeys[i] + '"/><div class="galllbl">Day ’ + allKeys[i].replace(‘day’,’’) + ‘</div></div>’;
+}
+html += ‘</div>’;
 } else {
-html+=`<div class="gallery-empty">No photos yet — start today!</div>`;
+html += ‘<div class="gallempty">No photos yet</div>’;
 }
-html+=`<div style="height:40px"></div>`;
-panel.innerHTML=html;
+html += ‘<div style="height:40px"></div>’;
+p.innerHTML = html;
 }
 
-function handlePhotoUpload(day,input){
-const file=input.files[0];if(!file)return;
-const reader=new FileReader();
-reader.onload=e=>{
-const dayKey=‘day_’+day;
-const note=document.getElementById(‘photoNote’)?.value||’’;
-photoStore[dayKey]={src:e.target.result,note,date:new Date().toLocaleDateString()};
+function handleUpload(day, input) {
+var file = input.files[0]; if (!file) return;
+var reader = new FileReader();
+reader.onload = function(e) {
+var note = document.getElementById(‘pnote’) ? document.getElementById(‘pnote’).value : ‘’;
+photos[‘day’ + day] = {src: e.target.result, note: note, date: new Date().toLocaleDateString()};
 savePhotos();
-renderPhotoPanel(ALL_DAYS[currentDayIndex]);
-showToast(‘📸 Photo saved!’);
+buildPhotoPanel(ALL_DAYS[curDayIdx]);
+showToast(‘Photo saved!’);
 };
 reader.readAsDataURL(file);
 }
-
-function savePhotoNote(day){
-const dayKey=‘day_’+day;
-const note=document.getElementById(‘photoNote’)?.value||’’;
-if(!photoStore[dayKey]) photoStore[dayKey]={};
-photoStore[dayKey].note=note;
+function saveNote(day) {
+var note = document.getElementById(‘pnote’) ? document.getElementById(‘pnote’).value : ‘’;
+if (!photos[‘day’ + day]) photos[‘day’ + day] = {};
+photos[‘day’ + day].note = note;
 savePhotos();
-showToast(‘✨ Note saved!’);
+showToast(‘Note saved!’);
 }
-
-function deletePhoto(day){
-delete photoStore[‘day_’+day];
+function deletePhoto(day) {
+delete photos[‘day’ + day];
 savePhotos();
-renderPhotoPanel(ALL_DAYS[currentDayIndex]);
+buildPhotoPanel(ALL_DAYS[curDayIdx]);
 showToast(‘Photo removed.’);
 }
 
-// ── SHOPPING LISTS ─────────────────────────────────────────────
-let shoppingChecked={};
-try{shoppingChecked=JSON.parse(localStorage.getItem(‘s90_shop’)||’{}’);}catch(e){}
-function saveShop(){try{localStorage.setItem(‘s90_shop’,JSON.stringify(shoppingChecked));}catch(e){}}
-
-const WEEKLY_SHOPPING=[
-// Week 1 (Days 1-7)
-{week:‘Week 1’,days:‘Days 1–7’,categories:[
-{cat:‘🥩 Proteins’,items:[
-{n:‘Chicken breast, boneless skinless’,q:‘2 lbs’},
-{n:‘Salmon fillets’,q:‘1 lb’},
-{n:‘Lean ground beef (93%)’,q:‘1 lb’},
-{n:‘Albacore tuna (canned)’,q:‘3 cans’},
-{n:‘Greek yogurt, full-fat’,q:‘32 oz container’},
-{n:‘Cottage cheese, low-fat’,q:‘16 oz’},
-{n:‘Eggs, large’,q:‘18 count’},
-{n:‘Whey protein powder’,q:‘1 tub (if needed)’},
-{n:‘Casein protein powder’,q:‘1 tub (if needed)’},
-{n:‘String cheese’,q:‘1 pack’},
-]},
-{cat:‘🥑 Produce’,items:[
-{n:‘Bananas’,q:‘6’},
-{n:‘Mixed berries (or frozen)’,q:‘2 lbs’},
-{n:‘Broccoli’,q:‘2 heads’},
-{n:‘Bell peppers (mixed)’,q:‘4’},
-{n:‘Asparagus’,q:‘1 bunch’},
-{n:‘Sweet potatoes’,q:‘4 medium’},
-{n:‘Spinach, baby’,q:‘5 oz bag’},
-{n:‘Mushrooms’,q:‘8 oz’},
-{n:‘Cherry tomatoes’,q:‘1 pint’},
-{n:‘Avocados’,q:‘3’},
-{n:‘Mixed greens’,q:‘5 oz bag’},
-{n:‘Cucumber’,q:‘2’},
-{n:‘Pineapple chunks (or canned)’,q:‘1 can’},
-{n:‘Apples’,q:‘4’},
-{n:‘Zucchini’,q:‘2’},
-]},
-{cat:‘🌾 Grains & Carbs’,items:[
-{n:‘Rolled oats’,q:‘1 large canister’},
-{n:‘Quinoa’,q:‘1 lb bag’},
-{n:‘Brown rice’,q:‘2 lb bag’},
-{n:‘Whole grain bread’,q:‘1 loaf’},
-{n:‘Whole-wheat wraps’,q:‘1 pack’},
-{n:‘Rice cakes’,q:‘1 bag’},
-]},
-{cat:‘🥜 Fats & Pantry’,items:[
-{n:‘Almond butter, natural’,q:‘1 jar’},
-{n:‘Peanut butter, natural’,q:‘1 jar’},
-{n:‘Olive oil, extra-virgin’,q:‘1 bottle’},
-{n:‘Almonds, raw’,q:‘1 bag’},
-{n:‘Walnuts’,q:‘1 bag’},
-{n:‘Chia seeds’,q:‘1 bag’},
-{n:‘Honey, raw’,q:‘1 bottle’},
-{n:‘Almond milk, unsweetened’,q:‘2 cartons’},
-{n:‘Chickpeas (canned)’,q:‘1 can’},
-{n:‘Protein bars (Quest/RX)’,q:‘4 bars’},
-]},
-{cat:‘🧂 Seasonings & Sauces’,items:[
-{n:‘Low-sodium soy sauce’,q:‘1 bottle’},
-{n:‘Apple cider vinegar’,q:‘1 bottle’},
-{n:‘Balsamic vinegar’,q:‘1 bottle’},
-{n:‘Lemon (fresh)’,q:‘4’},
-{n:‘Garlic (fresh or powder)’,q:‘1 head / jar’},
-{n:‘Everything bagel seasoning’,q:‘1 jar’},
-{n:‘Cinnamon’,q:‘1 jar’},
-{n:‘Red pepper flakes’,q:‘1 jar’},
-]},
-]},
-// Week 2 (Days 8-14)
-{week:‘Week 2’,days:‘Days 8–14’,categories:[
-{cat:‘🥩 Proteins’,items:[
-{n:‘Chicken breast’,q:‘2 lbs’},
-{n:‘Chicken thighs, skinless’,q:‘1.5 lbs’},
-{n:‘Shrimp, large’,q:‘1 lb’},
-{n:‘Cod fillets’,q:‘1.5 lbs’},
-{n:‘Lean turkey breast (deli)’,q:‘½ lb’},
-{n:‘Greek yogurt, full-fat’,q:‘32 oz’},
-{n:‘Cottage cheese’,q:‘16 oz’},
-{n:‘Eggs, large’,q:‘12 count’},
-{n:‘Smoked salmon’,q:‘4 oz pack’},
-{n:‘Edamame (frozen, shelled)’,q:‘12 oz bag’},
-]},
-{cat:‘🥑 Produce’,items:[
-{n:‘Bananas’,q:‘5’},
-{n:‘Mixed berries (fresh or frozen)’,q:‘1.5 lbs’},
-{n:‘Kale, curly’,q:‘1 bunch’},
-{n:‘Brussels sprouts’,q:‘1 lb’},
-{n:‘Eggplant’,q:‘1 medium’},
-{n:‘Zucchini’,q:‘3’},
-{n:‘Carrots’,q:‘1 lb bag’},
-{n:‘Sweet potatoes’,q:‘3’},
-{n:‘Avocados’,q:‘2’},
-{n:‘Mixed greens’,q:‘5 oz bag’},
-{n:‘Cucumber’,q:‘2’},
-{n:‘Red onion’,q:‘1’},
-{n:‘Parsnips’,q:‘3’},
-]},
-{cat:‘🌾 Grains & Carbs’,items:[
-{n:‘Wild rice’,q:‘1 bag’},
-{n:‘Whole grain English muffins’,q:‘1 pack’},
-{n:‘Lentils, green (dried or canned)’,q:‘1 bag / 2 cans’},
-{n:‘Brown rice’,q:‘replenish if needed’},
-{n:‘Sourdough bread’,q:‘1 loaf’},
-{n:‘Corn tortillas’,q:‘1 pack’},
-]},
-{cat:‘🥜 Fats & Pantry’,items:[
-{n:‘Tahini’,q:‘1 jar’},
-{n:‘Light cream cheese’,q:‘1 block’},
-{n:‘Parmesan cheese’,q:‘1 block or bag’},
-{n:‘Feta cheese’,q:‘4 oz’},
-{n:‘Black beans (canned)’,q:‘1 can’},
-{n:‘Marinara sauce (low sugar)’,q:‘1 jar’},
-{n:‘Granola’,q:‘1 bag’},
-{n:‘Coconut flakes, unsweetened’,q:‘1 bag’},
-{n:‘Medjool dates’,q:‘1 pack’},
-{n:‘Walnuts’,q:‘replenish if needed’},
-]},
-{cat:‘🧂 Seasonings & Sauces’,items:[
-{n:‘Fresh ginger’,q:‘1 knob’},
-{n:‘Rosemary, fresh or dried’,q:‘1 bunch/jar’},
-{n:‘Fresh herbs (cilantro, parsley)’,q:‘1 bunch each’},
-{n:‘Salsa, low-sodium’,q:‘1 jar’},
-{n:‘Mustard, dijon’,q:‘1 jar’},
-{n:‘Light Caesar dressing’,q:‘1 bottle’},
-]},
-]},
-// Week 3 (Days 15-21)
-{week:‘Week 3’,days:‘Days 15–21’,categories:[
-{cat:‘🥩 Proteins’,items:[
-{n:‘Chicken breast’,q:‘2.5 lbs’},
-{n:‘Salmon’,q:‘1.5 lbs’},
-{n:‘Lean ground turkey’,q:‘1 lb’},
-{n:‘Grass-fed sirloin steak’,q:‘1 lb’},
-{n:‘Greek yogurt’,q:‘32 oz’},
-{n:‘Eggs’,q:‘18 count’},
-{n:‘Cottage cheese’,q:‘16 oz’},
-{n:‘Protein powder (whey + casein)’,q:‘replenish’},
-]},
-{cat:‘🥑 Produce’,items:[
-{n:‘Spinach’,q:‘10 oz bag’},
-{n:‘Broccoli’,q:‘2 heads’},
-{n:‘Asparagus’,q:‘2 bunches’},
-{n:‘Bell peppers’,q:‘4’},
-{n:‘Sweet potatoes’,q:‘4’},
-{n:‘Avocados’,q:‘4’},
-{n:‘Berries (frozen OK)’,q:‘2 lbs’},
-{n:‘Bananas’,q:‘6’},
-{n:‘Snap peas’,q:‘1 bag’},
-{n:‘Lemons’,q:‘4’},
-]},
-{cat:‘🌾 Grains & Carbs’,items:[
-{n:‘Oats’,q:‘replenish if needed’},
-{n:‘Quinoa’,q:‘replenish’},
-{n:‘Whole grain protein pancake mix’,q:‘1 box’},
-{n:‘Brown rice’,q:‘replenish’},
-{n:‘Rice cakes’,q:‘1 bag’},
-]},
-{cat:‘🥜 Fats & Pantry’,items:[
-{n:‘Almond butter’,q:‘replenish’},
-{n:‘Olive oil’,q:‘replenish’},
-{n:‘Almonds’,q:‘1 bag’},
-{n:‘Protein bars’,q:‘1 box’},
-{n:‘Chia seeds’,q:‘replenish’},
-{n:‘Honey’,q:‘replenish’},
-{n:‘Almond milk’,q:‘2 cartons’},
-]},
-{cat:‘🧂 Pantry Staples’,items:[
-{n:‘Sea salt & black pepper’,q:‘replenish as needed’},
-{n:‘Garlic powder’,q:‘replenish’},
-{n:‘Cumin’,q:‘1 jar’},
-{n:‘Paprika’,q:‘1 jar’},
-{n:‘Low-sodium chicken broth’,q:‘1 carton’},
-]},
-]},
-// Week 4–13 reuse Week 1–3 cycling
-];
-
-// Generate 13 weeks cycling through the 3 templates
-const ALL_SHOPPING=[];
-for(let w=0;w<13;w++){
-const base=WEEKLY_SHOPPING[w%3];
-const startDay=w*7+1,endDay=Math.min(startDay+6,90);
-ALL_SHOPPING.push({…base,week:`Week ${w+1}`,days:`Days ${startDay}–${endDay}`});
+// ── CHECKIN TOGGLE ────────────────────────────────────────────
+function toggleCheck(day, key, el) {
+var dk = ‘d’ + day;
+if (!checks[dk]) checks[dk] = {};
+checks[dk][key] = !checks[dk][key];
+saveData();
+el.classList.toggle(‘chk’, checks[dk][key]);
+el.querySelector(’.hclbox’).innerHTML = checks[dk][key] ? ‘✓’ : ‘’;
+var items = day >= 16 ? HARD_ITEMS : P1_ITEMS;
+var allChk = true;
+for (var i = 0; i < items.length; i++) { if (!checks[dk][items[i].k]) { allChk = false; break; } }
+if (allChk && !done[day]) {
+done[day] = true; saveData();
+updateBtns(day, true);
+showToast(‘All tasks done - Day ’ + day + ’ complete!’);
+updateProgress();
+}
 }
 
-let currentShopWeek=0;
+function toggleDone(day) {
+done[day] = !done[day]; saveData();
+updateBtns(day, done[day]);
+if (done[day]) showToast(‘Day ’ + day + ’ marked complete!’);
+updateProgress();
+}
 
-function renderShopping(weekIdx){
-currentShopWeek=weekIdx;
-const sel=document.getElementById(‘weekSelector’);
-if(!sel) return;
-sel.innerHTML=’’;
-ALL_SHOPPING.forEach((w,i)=>{
-const btn=document.createElement(‘button’);
-btn.className=‘week-pill’+(i===weekIdx?’ active’:’’);
-btn.textContent=w.week;
-btn.onclick=()=>{document.querySelectorAll(’.week-pill’).forEach(p=>p.classList.remove(‘active’));btn.classList.add(‘active’);renderShopList(i);};
+function updateBtns(day, isDone) {
+var btns = [‘cbtn1’,‘cbtn2’];
+for (var i = 0; i < btns.length; i++) {
+var b = document.getElementById(btns[i]);
+if (b) { b.textContent = isDone ? ‘DAY COMPLETE’ : ‘MARK DAY COMPLETE’; b.classList.toggle(‘done’, isDone); }
+}
+// Update banner
+var panels = document.querySelectorAll(’.tpanel’);
+for (var i = 0; i < panels.length; i++) {
+var ex = panels[i].querySelector(’.donebanner’);
+if (isDone && !ex) panels[i].insertAdjacentHTML(‘afterbegin’, ‘<div class="donebanner">Day ’ + day + ’ complete! You are crushing it.</div>’);
+else if (!isDone && ex) ex.remove();
+}
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────
+function updateProgress() {
+var count = 0;
+for (var k in done) { if (done[k]) count++; }
+var pct = Math.round((count / 90) * 100);
+var el = document.getElementById(‘doneCount’); if (el) el.textContent = count + ‘/90’;
+var el2 = document.getElementById(‘ringPct’); if (el2) el2.textContent = pct + ‘%’;
+var ring = document.getElementById(‘ringCircle’);
+if (ring) ring.style.strokeDashoffset = 207.3 - (pct / 100) * 207.3;
+var streak = 0;
+for (var i = 1; i <= 90; i++) { if (done[i]) streak++; else break; }
+var el3 = document.getElementById(‘streakCount’); if (el3) el3.textContent = streak + ’ streak’;
+var el4 = document.getElementById(‘curPhase’);
+if (el4) el4.textContent = count < 15 ? ‘RAMP’ : count < 45 ? ‘2A HARD’ : ‘2B HARD’;
+renderStats(count, streak, pct);
+}
+
+function renderStats(count, streak, pct) {
+var sc = document.getElementById(‘stcontent’); if (!sc) return;
+var html = ‘<div class="stcard"><div class="stclbl">Days Completed</div><div class="stcval">’ + count + ‘</div><div class="stcsub">’ + (90-count) + ’ days remaining</div></div>’;
+html += ‘<div class="stcard"><div class="stclbl">Streak</div><div class="stcval">’ + streak + ‘</div><div class="stcsub">Consecutive days from Day 1</div></div>’;
+html += ‘<div class="stcard"><div class="stclbl">Completion</div><div class="stcval">’ + pct + ‘%</div><div style="background:#2a2a2a;border-radius:4px;height:6px;margin-top:10px;overflow:hidden"><div style="background:#c9836a;height:6px;width:' + pct + '%;border-radius:4px"></div></div></div>’;
+html += ‘<div class="stcard"><div class="stclbl">Goal</div><div class="stcval" style="font-size:22px;line-height:1.5">Glutes<br>Abs<br>Definition</div><div class="stcsub" style="margin-top:6px">130g+ protein per day - 1800-2000 cal</div></div>’;
+html += ‘<div class="stcard"><div class="stclbl">90-Day Grid</div><div class="calgrid" id="calgrid"></div></div>’;
+sc.innerHTML = html;
+var grid = document.getElementById(‘calgrid’);
+if (grid) {
+for (var i = 1; i <= 90; i++) {
+var cell = document.createElement(‘div’);
+cell.className = ‘calcell’ + (done[i] ? ’ done’ : ‘’);
+cell.textContent = i;
+grid.appendChild(cell);
+}
+}
+}
+
+// ── SHOPPING ──────────────────────────────────────────────────
+function renderShopping(wkIdx) {
+curShopWk = wkIdx;
+var sel = document.getElementById(‘wksel’); if (!sel) return;
+sel.innerHTML = ‘’;
+for (var i = 0; i < ALL_SHOP.length; i++) {
+(function(idx) {
+var btn = document.createElement(‘button’);
+btn.className = ‘wkpill’ + (idx === wkIdx ? ’ active’ : ‘’);
+btn.textContent = ALL_SHOP[idx].wk;
+btn.onclick = function() {
+var pills = document.querySelectorAll(’.wkpill’);
+for (var j = 0; j < pills.length; j++) pills[j].classList.remove(‘active’);
+btn.classList.add(‘active’);
+renderShopList(idx);
+};
 sel.appendChild(btn);
-});
-renderShopList(weekIdx);
+})(i);
+}
+renderShopList(wkIdx);
 }
 
-function renderShopList(weekIdx){
-const w=ALL_SHOPPING[weekIdx];
-const content=document.getElementById(‘shopContent’);
-if(!content) return;
-const weekKey=‘shop_w’+weekIdx;
-const checked=shoppingChecked[weekKey]||{};
-let html=`<div style="font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:16px">${w.days}</div>`;
-w.categories.forEach((cat,ci)=>{
-html+=`<div class="shop-category"><div class="shop-cat-title">${cat.cat}</div>`;
-cat.items.forEach((item,ii)=>{
-const key=`${ci}_${ii}`,got=!!checked[key];
-html+=`<div class="shop-item${got?' got':''}" onclick="toggleShopItem(${weekIdx},${ci},${ii},this)"> <div class="shop-check">${got?'✓':''}</div> <span class="shop-name">${item.n}</span> <span class="shop-qty">${item.q}</span></div>`;
-});
-html+=`</div>`;
-});
-const total=w.categories.reduce((s,c)=>s+c.items.length,0);
-const gotCount=Object.values(checked).filter(Boolean).length;
-html+=`<div style="font-family:'Courier New',monospace;font-size:11px;color:#555;letter-spacing:2px;text-align:center;margin:16px 0">${gotCount} / ${total} items checked</div>`;
-html+=`<button class="shop-reset-btn" onclick="resetShopWeek(${weekIdx})">↺ Reset This Week's List</button>`;
-html+=`<div style="height:40px"></div>`;
-content.innerHTML=html;
+function renderShopList(wkIdx) {
+var content = document.getElementById(‘shcontent’); if (!content) return;
+var wk = ALL_SHOP[wkIdx];
+var wkKey = ‘w’ + wkIdx;
+var ck = shopChk[wkKey] || {};
+var html = ‘<div style="font-family:Courier New,monospace;font-size:10px;letter-spacing:2px;color:#555;text-transform:uppercase;margin-bottom:14px">’ + wk.days + ‘</div>’;
+for (var ci = 0; ci < wk.cats.length; ci++) {
+var cat = wk.cats[ci];
+html += ‘<div class="shcat"><div class="shcattit">’ + cat.cat + ‘</div>’;
+for (var ii = 0; ii < cat.items.length; ii++) {
+var item = cat.items[ii];
+var key = ci + ‘_’ + ii;
+var got = !!ck[key];
+html += ‘<div class="shitem' + (got ? ' got' : '') + '" onclick="toggleShop(' + wkIdx + ',' + ci + ',' + ii + ',this)">’;
+html += ‘<div class="shchk">’ + (got ? ‘✓’ : ‘’) + ‘</div>’;
+html += ‘<span class="shname">’ + item[0] + ‘</span><span class="shqty">’ + item[1] + ‘</span></div>’;
+}
+html += ‘</div>’;
+}
+var total = 0;
+for (var ci = 0; ci < wk.cats.length; ci++) total += wk.cats[ci].items.length;
+var gotCount = 0;
+for (var k in ck) { if (ck[k]) gotCount++; }
+html += ‘<div style="font-family:Courier New,monospace;font-size:11px;color:#555;letter-spacing:2px;text-align:center;margin:14px 0">’ + gotCount + ’ / ’ + total + ’ items checked</div>’;
+html += ‘<button class="shreset" onclick="resetShop(' + wkIdx + ')">Reset This Week</button>’;
+html += ‘<div style="height:40px"></div>’;
+content.innerHTML = html;
 }
 
-function toggleShopItem(weekIdx,ci,ii,el){
-const weekKey=‘shop_w’+weekIdx,key=`${ci}_${ii}`;
-if(!shoppingChecked[weekKey]) shoppingChecked[weekKey]={};
-shoppingChecked[weekKey][key]=!shoppingChecked[weekKey][key];
-saveShop();
-const got=shoppingChecked[weekKey][key];
-el.classList.toggle(‘got’,got);
-el.querySelector(’.shop-check’).textContent=got?‘✓’:’’;
+function toggleShop(wkIdx, ci, ii, el) {
+var wkKey = ‘w’ + wkIdx, key = ci + ‘_’ + ii;
+if (!shopChk[wkKey]) shopChk[wkKey] = {};
+shopChk[wkKey][key] = !shopChk[wkKey][key];
+saveData();
+var got = shopChk[wkKey][key];
+el.classList.toggle(‘got’, got);
+el.querySelector(’.shchk’).innerHTML = got ? ‘✓’ : ‘’;
 }
 
-function resetShopWeek(weekIdx){
-shoppingChecked[‘shop_w’+weekIdx]={};
-saveShop();
-renderShopList(weekIdx);
-showToast(‘List reset for this week.’);
+function resetShop(wkIdx) {
+shopChk[‘w’ + wkIdx] = {};
+saveData();
+renderShopList(wkIdx);
+showToast(‘List reset.’);
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────
+function showScreen(id, btn) {
+if (id !== ‘detail’) prevScr = id;
+var screens = document.querySelectorAll(’.screen’);
+for (var i = 0; i < screens.length; i++) screens[i].classList.remove(‘active’);
+document.getElementById(id).classList.add(‘active’);
+if (btn) {
+var nbtns = document.querySelectorAll(’.nbtn’);
+for (var i = 0; i < nbtns.length; i++) nbtns[i].classList.remove(‘active’);
+btn.classList.add(‘active’);
+}
+if (id === ‘stats’) updateProgress();
+if (id === ‘shopping’) renderShopping(curShopWk);
+}
+
+function goBack() {
+showScreen(prevScr, null);
+renderList(curPhaseIdx);
+updateProgress();
+}
+
+function showToast(msg) {
+var t = document.getElementById(‘toast’);
+t.textContent = msg; t.classList.add(‘show’);
+setTimeout(function() { t.classList.remove(‘show’); }, 2400);
 }
 
 // ── INIT ──────────────────────────────────────────────────────
-renderPhase(0);
+loadData();
+renderList(0);
 updateProgress();
-// Don’t call renderShopping at init - render lazily when screen is shown
 </script>
 
 </body>
